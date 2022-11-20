@@ -3,7 +3,7 @@
 ## Team members
 The members of the team are:
 - Lavish Kamal Kumar
-- *Kai Ming Tey
+- Kai Ming Tey
 - Abhishek Rao Chimbli
 - Adnan Turkay
 - Fergan Yalim
