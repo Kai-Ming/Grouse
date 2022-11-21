@@ -1,4 +1,4 @@
-# Team *<enter team name here>* Small Group project
+# Team Grouse Small Group project
 
 ## Team members
 The members of the team are:
@@ -45,9 +45,6 @@ Run all tests with:
 $ python3 manage.py test
 ```
 
-*The above instructions should work in your version of the application.  If there are deviations, declare those here in bold.  Otherwise, remove this line.*
 
 ## Sources
 The packages used by this application are specified in `requirements.txt`
-
-*Declare are other sources here.*
