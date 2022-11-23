@@ -13,16 +13,28 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         user_count = 0
+        # Seeds students
         while user_count < Command.USER_COUNT:
             print(f'Seeding user {user_count}',  end='\r')
             try:
-                self._create_user()
+                self._create_user(1)
             except (IntegrityError):
                 continue
             user_count += 1
+
+        # Seeds admins and superadmins
+        try:
+            self._create_user(4)
+            self._create_user(4)
+            self._create_user(5)
+            user_count += 3
+        except (IntegrityError):
+            print('Failed admin seeding')
+
         print('User seeding complete')
 
-    def _create_user(self):
+    # Creates a random user
+    def _create_user(self, type):
         first_name = self.faker.first_name()
         last_name = self.faker.last_name()
         email = self._email(first_name, last_name)
@@ -30,7 +42,7 @@ class Command(BaseCommand):
 
         User.objects.create_user(
             username,
-            user_type = 1,
+            user_type = type,
             first_name=first_name,
             last_name=last_name,
             email=email,
