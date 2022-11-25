@@ -34,13 +34,13 @@ class User(AbstractUser):
 class LessonRequest(models.Model):
 
     LESSON_NUMBER_CHOICES = (
-        (1,1),
-        (2,2)    
+        (1,"1"),
+        (2,"2")    
     )
     LESSON_DURATION_CHOICES = (
-        (30,30),
-        (45,45),
-        (60,60)
+        (30,"30"),
+        (45,"45"),
+        (60,"60")
     )    
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -51,13 +51,13 @@ class LessonRequest(models.Model):
 class LessonBooking(models.Model):
 
     LESSON_NUMBER_CHOICES = (
-        (1,1),
-        (2,2)    
+        (1,"1"),
+        (2,"2")   
     )
     LESSON_DURATION_CHOICES = (
-        (30,30),
-        (45,45),
-        (60,60)
+        (30,"30"),
+        (45,"45"),
+        (60,"60")
     )  
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
