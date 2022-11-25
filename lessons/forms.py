@@ -9,3 +9,9 @@ class SignUpForm(forms.ModelForm):
     new_password = forms.CharField(label='Password', widget=forms.PasswordInput())
     password_confirmation = forms.CharField(label='Password confirmation', widget=forms.PasswordInput())
 
+class LogInForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
+
+    password = forms.CharField(label='Password', widget=forms.PasswordInput())
