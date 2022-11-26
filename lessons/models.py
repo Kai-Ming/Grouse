@@ -31,7 +31,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, blank=False)
     email = models.EmailField(unique=True, blank=False)
 
-class LessonRequest(models.Model):
+""" class LessonRequest(models.Model):
 
     LESSON_NUMBER_CHOICES = (
         (1,1),
@@ -46,9 +46,9 @@ class LessonRequest(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
-    teacher = models.CharField(max_length=100, blank=True)
+    teacher = models.CharField(max_length=100, blank=True) """
 
-class LessonBooking(models.Model):
+class Lesson(models.Model):
 
     LESSON_NUMBER_CHOICES = (
         (1,1),
@@ -64,6 +64,8 @@ class LessonBooking(models.Model):
     start_date = models.DateField()
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
-    teacher = models.CharField(max_length=100, validators=[MinLengthValidator(1)])
+    teacher = models.CharField(max_length=100)
     price = models.FloatField(validators=[MinValueValidator(0)])
+    fulfilled = models.BooleanField(default=False)
+
  

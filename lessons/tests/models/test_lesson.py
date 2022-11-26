@@ -1,22 +1,23 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from lessons.models import LessonBooking, User
+from lessons.models import Lesson, User
 import datetime
 
-class LessonBookingTest(TestCase):
+class LessonTest(TestCase):
 
     fixtures = ['lessons/tests/fixtures/default_student.json']
 
     def setUp(self):
         super(TestCase, self).setUp()
         self.user = User.objects.get(username='johndoe')
-        self.lesson_booking = LessonBooking(
+        self.lesson = Lesson(
             student=self.user,
             start_date = datetime.datetime(2023, 5, 17),
             number_of_lessons=1,
             lesson_duration=45,
             teacher='Jeoren Keppens',
-            price=200.50
+            price=200.50,
+            fulfilled=True
         )
 
     def test_student_must_not_be_blank(self):
