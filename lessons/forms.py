@@ -30,9 +30,7 @@ class StudentSignUpForm(forms.ModelForm):
         return user
 
 
-class LogInForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username']
+class LogInForm(forms.Form):
 
+    username = forms.CharField(label="Username")
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
