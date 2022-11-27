@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
+from django.core.validators import MinValueValidator, MinLengthValidator
 
 
 class User(AbstractUser):
@@ -37,3 +38,32 @@ class Student(User):
     student_no = models.PositiveIntegerField(unique=True, blank=False, primary_key=True)
 
     # extend the Student model as necessary
+
+
+class Lesson(models.Model):
+
+    LESSON_NUMBER_CHOICES = (
+        (1,"1"),
+        (2,"2")    
+    )
+    LESSON_DURATION_CHOICES = (
+        (30,"30"),
+        (45,"45"),
+        (60,"60")
+    ) 
+    PAID_TYPE_CHOICES = {
+        (1, "unpaid"),
+        (2, "paid"),
+        (3, "partially paid"),
+        (4, "overpaid")
+    } 
+
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
+    lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
+    teacher = models.CharField(max_length=100)
+    price = models.FloatField(validators=[MinValueValidator(0)])
+    fulfilled = models.BooleanField(default=False)
+    paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
+ 
