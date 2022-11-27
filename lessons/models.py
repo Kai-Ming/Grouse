@@ -17,7 +17,7 @@ class User(AbstractUser):
 
     # Define attributes.
     # All valid users must have a user type, username, first name, last name, and an email.
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=5)
     username = models.CharField(
         max_length=16,
         unique=True, validators=[RegexValidator(
