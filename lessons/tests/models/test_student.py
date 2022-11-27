@@ -28,7 +28,7 @@ class StudentModelTestCase(TestCase):
 
     def test_student_no_must_be_a_positive_integer(self):
         self.user.student_no = -1
-        self._assert_user_is_valid()
+        self._assert_user_is_invalid()
 
     # add test cases as the Student model is extended
 
