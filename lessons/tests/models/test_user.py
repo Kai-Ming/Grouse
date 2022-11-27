@@ -20,7 +20,7 @@ class UserModelTestCase(TestCase):
         self._assert_user_is_valid()
 
     # User type
-    def user_must_have_a_valid_type(self):
+    def test_user_must_have_a_valid_type(self):
         self.user.user_type = -1
         self._assert_user_is_invalid()
 
@@ -55,25 +55,25 @@ class UserModelTestCase(TestCase):
         self._assert_user_is_valid()
 
     # First name
-    def first_name_must_not_be_blank(self):
+    def test_first_name_must_not_be_blank(self):
         self.user.first_name = ''
         self._assert_user_is_invalid()
 
-    def first_name_cannot_be_over_50_characters_long(self):
+    def test_first_name_cannot_be_over_50_characters_long(self):
         self.user.first_name = 'x' * 51
         self._assert_user_is_invalid()
 
     # Last name
-    def last_name_must_not_be_blank(self):
+    def test_last_name_must_not_be_blank(self):
         self.user.last_name = ''
         self._assert_user_is_invalid()
 
-    def last_name_cannot_be_over_50_characters_long(self):
+    def test_last_name_cannot_be_over_50_characters_long(self):
         self.user.last_name = 'x' * 51
         self._assert_user_is_invalid()
 
     # E-mail
-    def email_must_not_be_blank(self):
+    def test_email_must_not_be_blank(self):
         self.user.email = ''
         self._assert_user_is_invalid()
 
