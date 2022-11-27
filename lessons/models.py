@@ -2,11 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 
-# Create your models here.
 
-
-# A generic user class.
 class User(AbstractUser):
+    """A generic user class."""
+
     # Add user types as necessary.
     USER_TYPE_CHOICES = (
       (1, 'student'),
@@ -29,4 +28,12 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
     email = models.EmailField(unique=True, blank=False)
-    
+
+
+class Student(User):
+    """A student of the music school."""
+
+    # A student has a unique student number used for identification.
+    student_no = models.PositiveIntegerField(unique=True, blank=False, primary_key=True)
+
+    # extend the Student model as necessary
