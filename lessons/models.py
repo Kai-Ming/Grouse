@@ -51,12 +51,12 @@ class Lesson(models.Model):
         (45,"45"),
         (60,"60")
     ) 
-    PAID_TYPE_CHOICES = {
+    PAID_TYPE_CHOICES = (
         (1, "unpaid"),
         (2, "paid"),
         (3, "partially paid"),
         (4, "overpaid")
-    } 
+    ) 
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
