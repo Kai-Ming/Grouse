@@ -18,6 +18,7 @@ from django.urls import path
 from lessons import views
 
 urlpatterns = [
+    path('', views.log_in, name='log_in'),
     path('admin/', admin.site.urls),
     path('student_sign_up/', views.student_sign_up, name='student_sign_up'),
     path('teacher_sign_up/', views.teacher_sign_up, name='teacher_sign_up'),
