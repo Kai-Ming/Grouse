@@ -74,7 +74,6 @@ class Invoice(models.Model):
 
     invoice_no = models.CharField(
         max_length=50,
-        unique=True,
         blank=False,
         primary_key=True,
         validators=[RegexValidator(
