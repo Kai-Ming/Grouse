@@ -1,6 +1,6 @@
 from django.shortcuts import redirect,render
 from django.contrib.auth import authenticate,login
-from .forms import StudentSignUpForm,LogInForm
+from .forms import *
 
 def student_sign_up(request):
     if request.method == "POST":
@@ -12,6 +12,28 @@ def student_sign_up(request):
     else:
         form = StudentSignUpForm()
     return render(request, 'student_sign_up.html', {'form': form})
+
+def teacher_sign_up(request):
+    if request.method == "POST":
+        form = TeacherSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("user_page")
+    else:
+        form = TeacherSignUpForm()
+    return render(request, 'teacher_sign_up.html', {'form': form})
+
+def adult_sign_up(request):
+    if request.method == "POST":
+        form = AdultSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("user_page")
+    else:
+        form = AdultSignUpForm()
+    return render(request, 'adult_sign_up.html', {'form': form})
 
 def log_in(request):
     if request.method == 'POST':
