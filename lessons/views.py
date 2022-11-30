@@ -1,5 +1,6 @@
 from django.shortcuts import redirect,render
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
+
 from .forms import *
 
 def student_sign_up(request):
@@ -48,6 +49,10 @@ def log_in(request):
 
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
+
+def log_out(request):
+    logout(request)
+    return redirect('user_page')
 
 def user_page(request):
     return render(request, 'user_page.html')
