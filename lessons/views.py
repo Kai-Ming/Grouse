@@ -1,8 +1,10 @@
+
 from django.shortcuts import redirect,render
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from .checks import *
 
 from .forms import *
 
@@ -17,7 +19,7 @@ def student_sign_up(request):
         form = StudentSignUpForm()
     return render(request, 'student_sign_up.html', {'form': form})
 
-@login_required
+@user_passes_test(admin_rights_check)
 def teacher_sign_up(request):
     if request.method == "POST":
         form = TeacherSignUpForm(request.POST)
