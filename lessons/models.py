@@ -53,17 +53,17 @@ class Lesson(models.Model):
         (60,"60")
     ) 
     PAID_TYPE_CHOICES = (
-        (1, "unpaid"),
-        (2, "paid"),
-        (3, "partially paid"),
-        (4, "overpaid")
+        (1, "Unpaid"),
+        (2, "Paid"),
+        (3, "Partially paid"),
+        (4, "Overpaid")
     )
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
-    teacher = models.CharField(max_length=100)
+    teacher = models.CharField(max_length=100, default='')
     price = models.FloatField(validators=[MinValueValidator(0)])
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
