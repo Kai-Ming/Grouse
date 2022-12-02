@@ -1,19 +1,18 @@
 
 from django.shortcuts import redirect,render
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, login_prohibited
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from .checks import *
-
 from .forms import *
 
+@user_passes_test(not_a_student_check)
 def student_sign_up(request):
     if request.method == "POST":
         form = StudentSignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
             return redirect("user_page")
     else:
         form = StudentSignUpForm()
@@ -25,23 +24,23 @@ def teacher_sign_up(request):
         form = TeacherSignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
             return redirect("user_page")
     else:
         form = TeacherSignUpForm()
     return render(request, 'teacher_sign_up.html', {'form': form})
 
+@user_passes_test(not_a_student_check)
 def adult_sign_up(request):
     if request.method == "POST":
         form = AdultSignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
             return redirect("user_page")
     else:
         form = AdultSignUpForm()
     return render(request, 'adult_sign_up.html', {'form': form})
 
+@login_prohibited
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
@@ -58,9 +57,11 @@ def log_in(request):
     next = request.GET.get('next') or ''
     return render(request, 'log_in.html', {'form': form, 'next': next})
 
+@login_required
 def log_out(request):
     logout(request)
     return redirect('log_in')
 
+@login_required
 def user_page(request):
     return render(request, 'user_page.html')
