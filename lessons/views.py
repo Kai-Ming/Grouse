@@ -1,11 +1,19 @@
 
 from django.shortcuts import redirect,render
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required, user_passes_test, login_prohibited
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from .checks import *
 from .forms import *
+
+def login_prohibited(view_function):
+    def modified_view_function(request):
+        if request.user.is_authenticated:
+            return redirect('user_page')
+        else:
+            return view_function(request)
+    return modified_view_function
 
 @user_passes_test(not_a_student_check)
 def student_sign_up(request):
