@@ -3,9 +3,125 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>User page under construction</title>
+    <title>Welcome User!</title>
+    <style>
+        body {
+            font-family: helvetica;
+            margin-left: 75px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+        .all_info {
+            text-align: right;
+            margin-right: 75px;
+        }
+
+        .lessons, .invoices {
+            margin-top: 25px;
+            margin-bottom: 50px;
+        }
+
+        .payment_key {
+            font-size: 10px;
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>User page under construction</h1>
+    <div class="all_info">
+        <h1>{{ student_fName }}: Home</h1>
+
+        <p>Username: {{ curr_username }}</p>
+        <p>Name: {{ curr_name }}</p>
+        <p>Email: {{ curr_email }}</p>
+    </div>
+    <div class="lessons">
+        <h2>Lessons: </h2>
+        <h3>Enrolled:</h3>
+        <div class="payment_key">            
+            <b>Payment Status Key</b>
+            <br>
+            1 -> Unpaid
+            <br>
+            2 -> Paid
+            <br>
+            3 -> Partially Paid
+            <br>
+            4 -> Overpaid
+        </div>
+
+        {% for i in enrolled_lesson_data %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Duration</th>
+                <th>Teacher</th>
+                <th>Price</th>
+                <th>Payment Status</th>
+            </tr>
+            <tr>
+                <td>{{ i.id }}</td>a
+                <td>{{ i.lesson_duration }}</td>
+                <td>{{ i.teacher }}</td>
+                <td>{{ i.price }}</td>
+                <td>{{ i.paid_type }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Additional Lessons: </h3>
+        {% for i in other_lesson_data %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Start Date</th>
+                <th>Number of Lessons</th>
+                <th>Duration</th>
+                <th>Teacher</th>
+                <th>Price</th>
+                <th>Enroll</th>
+            </tr>
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.start_date }}</td>
+                <td>{{ i.start_date }}</td>
+                <td>{{ i.number_of_lessons }}</td>
+                <td>{{ i.teacher }}</td>
+                <td>{{ i.price }}</td>
+                <th><button type="submit">Enroll</button></th>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <div class="invoices">
+        <h2>Invoices: </h2>
+        {% for i in invoice_list %}
+        <table>
+            <tr>
+                <th>Invoice Number</th>
+                <th>Amount Due</th>
+                <th>Date Due</th>
+                <th>Date Created</th>
+                <th>Date Updated</th>
+            </tr>
+            <tr>
+                <td>{{ i.invoice_no }}</td>
+                <td>{{ i.due_amount }}</td>
+                <td>{{ i.due_date }}</td>
+                <td>{{ i.created_at }}</td>
+                <td>{{ i.updated_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 </html>

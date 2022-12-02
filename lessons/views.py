@@ -2,6 +2,7 @@ from django.shortcuts import redirect,render
 from django.contrib.auth import authenticate,login,logout
 
 from .forms import *
+from .models import *
 
 def student_sign_up(request):
     if request.method == "POST":
@@ -54,5 +55,29 @@ def log_out(request):
     logout(request)
     return redirect('user_page')
 
-def user_page(request):
+def user_page(self, request):
+    curr_username = request.user.username()
+    curr_name = request.get_full_name()
+    curr_email = request.user.email
+
+    curr_id = request.user.id
+
+    curr_enrolled_lessons = models.Lesson.objects.filter(student_id=curr_id)
+    other_enrolled_lessons = models.Lesson.objects.filter(student_id!=curr_id)
+    
+    # Continue here. Figure out how the invoice system works and continue from here
+    # May or may not work -- Need to test
+    invoice_list = models.Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id])
+
+
+    context = {
+        'curr_username': curr_username,
+        'curr_name': curr_name,
+        'curr_email': curr_email,
+        'enrolled_lesson_data': curr_enrolled_lessons,
+        'other_enrolled_lessons': other_enrolled_lessons,
+        'invoice_list': invoice_list
+    }
+
+
     return render(request, 'user_page.html')
