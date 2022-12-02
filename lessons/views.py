@@ -15,7 +15,6 @@ def login_prohibited(view_function):
             return view_function(request)
     return modified_view_function
 
-@user_passes_test(not_a_student_check)
 def student_sign_up(request):
     if request.method == "POST":
         form = StudentSignUpForm(request.POST)
@@ -37,7 +36,6 @@ def teacher_sign_up(request):
         form = TeacherSignUpForm()
     return render(request, 'teacher_sign_up.html', {'form': form})
 
-@user_passes_test(not_a_student_check)
 def adult_sign_up(request):
     if request.method == "POST":
         form = AdultSignUpForm(request.POST)
