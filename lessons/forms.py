@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import User
+from .models import User, Lesson
 
 class StudentSignUpForm(forms.ModelForm):
     class Meta:
@@ -34,3 +34,18 @@ class LogInForm(forms.Form):
 
     username = forms.CharField(label="Username")
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
+
+class PostForm(forms.ModelForm):
+    """Form to ask user for post text.
+
+    The post author must be by the post creator.
+    """
+
+    class Meta:
+        """Form options."""
+
+        model = Lesson
+        fields = ['number_of_lessons', 'lesson_duration', 'teacher']
+        number_of_lesson = forms.IntegerField(label='Number of lessons')
+        lesson_duration = forms.IntegerField(label='Lesson duration')
+        teacher = forms.CharField(label='Teacher')
