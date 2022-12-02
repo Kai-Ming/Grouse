@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
-from django.core.validators import MinValueValidator, MinLengthValidator
-
-# Create your models here.
+from django.core.validators import MinValueValidator
 
 
-# A generic user class.
 class User(AbstractUser):
+    """A generic user class."""
+
     # Add user types as necessary.
     USER_TYPE_CHOICES = (
       (1, 'student'),
@@ -22,14 +21,25 @@ class User(AbstractUser):
     user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=5)
     username = models.CharField(
         max_length=16,
-        unique=True, validators=[RegexValidator(
-            regex=r'^\w{3,16}$',
+        unique=True,
+        validators=[RegexValidator(
+            regex=r'^\w{3,}$',
             message='Username must consist of three to sixteen alphanumericals'
         )]
     )
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
     email = models.EmailField(unique=True, blank=False)
+
+
+class Student(User):
+    """A student of the music school."""
+
+    # A student has a unique student number used for identification.
+    student_no = models.PositiveIntegerField(unique=True, blank=False, primary_key=True)
+
+    # extend the Student model as necessary
+
 
 class Lesson(models.Model):
 
@@ -42,12 +52,12 @@ class Lesson(models.Model):
         (45,"45"),
         (60,"60")
     ) 
-    PAID_TYPE_CHOICES = {
-        (1, "unpaid"),
-        (2, "paid"),
-        (3, "partially paid"),
-        (4, "overpaid")
-    } 
+    PAID_TYPE_CHOICES = (
+        (1, "Unpaid"),
+        (2, "Paid"),
+        (3, "Partially paid"),
+        (4, "Overpaid")
+    )
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
@@ -58,4 +68,28 @@ class Lesson(models.Model):
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
 
- 
+
+class Invoice(models.Model):
+    """An invoice for a lesson."""
+
+    invoice_no = models.CharField(
+        max_length=50,
+        blank=False,
+        primary_key=True,
+        validators=[RegexValidator(
+            regex=r'\w[0-9]+-[0-9]+$',
+            message='Invoice number must only contain numbers and a dash'
+        )]
+    )
+    due_amount = models.DecimalField(blank=False, max_digits=6, decimal_places=2)
+    due_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Transfer(models.Model):
+    """A transfer made by the student to the music school's bank account."""
+
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    date = models.DateTimeField(auto_now_add=True)

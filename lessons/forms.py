@@ -2,7 +2,7 @@
 from django import forms
 from .models import User, Lesson
 
-class StudentSignUpForm(forms.ModelForm):
+class GenericSignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email']
@@ -19,6 +19,10 @@ class StudentSignUpForm(forms.ModelForm):
 
     def save(self):
         super().save(commit=False)
+
+class StudentSignUpForm(GenericSignUpForm):
+    def save(self):
+        super().save()
         user = User.objects.create_user(
             self.cleaned_data.get('username'),
             first_name=self.cleaned_data.get('first_name'),
@@ -29,6 +33,31 @@ class StudentSignUpForm(forms.ModelForm):
         )
         return user
 
+class AdultSignUpForm(GenericSignUpForm):
+    def save(self):
+        super().save()
+        user = User.objects.create_user(
+            self.cleaned_data.get('username'),
+            first_name=self.cleaned_data.get('first_name'),
+            last_name=self.cleaned_data.get('last_name'),
+            email=self.cleaned_data.get('email'),
+            password=self.cleaned_data.get('new_password'), 
+            user_type = 2
+        )
+        return user
+
+class TeacherSignUpForm(GenericSignUpForm):
+    def save(self):
+        super().save()
+        user = User.objects.create_user(
+            self.cleaned_data.get('username'),
+            first_name=self.cleaned_data.get('first_name'),
+            last_name=self.cleaned_data.get('last_name'),
+            email=self.cleaned_data.get('email'),
+            password=self.cleaned_data.get('new_password'), 
+            user_type = 3
+        )
+        return user
 
 class LogInForm(forms.Form):
 
