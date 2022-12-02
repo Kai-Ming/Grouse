@@ -55,7 +55,7 @@ def log_out(request):
     logout(request)
     return redirect('user_page')
 
-def user_page(self, request):
+def user_page(request):
     curr_username = request.user.username()
     curr_name = request.get_full_name()
     curr_email = request.user.email
