@@ -95,7 +95,7 @@
                 <td>{{ i.number_of_lessons }}</td>
                 <td>{{ i.teacher }}</td>
                 <td>{{ i.price }}</td>
-                <th><button type="submit">Enroll</button></th>
+                <th><button type="submit">Enroll</button></th> <!-- Add this lesson to the associated user and remove from this list-->
             </tr>
             {% endfor %}
         </table>
@@ -112,6 +112,7 @@
                 <th>Date Due</th>
                 <th>Date Created</th>
                 <th>Date Updated</th>
+                <th>Invoice</th>
             </tr>
             <tr>
                 <td>{{ i.invoice_no }}</td>
@@ -119,6 +120,7 @@
                 <td>{{ i.due_date }}</td>
                 <td>{{ i.created_at }}</td>
                 <td>{{ i.updated_at }}</td>
+                <td><button type="submit">Invoice</button></td> <!-- Create a PDF for the user to view -->
             </tr>
             {% endfor %}
         </table>
