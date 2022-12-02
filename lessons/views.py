@@ -20,7 +20,7 @@ def student_sign_up(request):
     if request.method == "POST":
         form = StudentSignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             return redirect("user_page")
     else:
         form = StudentSignUpForm()
@@ -31,7 +31,7 @@ def teacher_sign_up(request):
     if request.method == "POST":
         form = TeacherSignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             return redirect("user_page")
     else:
         form = TeacherSignUpForm()
@@ -42,7 +42,7 @@ def adult_sign_up(request):
     if request.method == "POST":
         form = AdultSignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             return redirect("user_page")
     else:
         form = AdultSignUpForm()
@@ -60,7 +60,7 @@ def log_in(request):
                 login(request, user)
                 redirect_url = request.POST.get('next') or 'user_page'
                 return redirect(redirect_url)
-
+        messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
     form = LogInForm()
     next = request.GET.get('next') or ''
     return render(request, 'log_in.html', {'form': form, 'next': next})
