@@ -53,7 +53,7 @@ class Lesson(models.Model):
     start_date = models.DateField()
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
-    teacher = models.CharField(max_length=100)
+    teacher = models.CharField(max_length=100, default='', blank=True)
     price = models.FloatField(validators=[MinValueValidator(0)])
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
