@@ -1,5 +1,10 @@
+
 from django.shortcuts import redirect,render
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from django.shortcuts import redirect, render
+from .checks import *
 
 from .forms import *
 
@@ -14,6 +19,7 @@ def student_sign_up(request):
         form = StudentSignUpForm()
     return render(request, 'student_sign_up.html', {'form': form})
 
+@user_passes_test(admin_rights_check)
 def teacher_sign_up(request):
     if request.method == "POST":
         form = TeacherSignUpForm(request.POST)
@@ -45,14 +51,16 @@ def log_in(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('user_page')
+                redirect_url = request.POST.get('next') or 'user_page'
+                return redirect(redirect_url)
 
     form = LogInForm()
-    return render(request, 'log_in.html', {'form': form})
+    next = request.GET.get('next') or ''
+    return render(request, 'log_in.html', {'form': form, 'next': next})
 
 def log_out(request):
     logout(request)
-    return redirect('user_page')
+    return redirect('log_in')
 
 def user_page(request):
     return render(request, 'user_page.html')
