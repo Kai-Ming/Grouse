@@ -6,3 +6,9 @@ def admin_rights_check(user):
     else: 
         return False
 
+def not_a_student_check(user):
+    if (User) (user).user_type == 1:
+        return False
+    else: 
+        return True
+

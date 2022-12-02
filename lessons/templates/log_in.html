@@ -1,4 +1,4 @@
-﻿{% extends 'base_content.html' %}
+{% extends 'base_content.html' %}
 {% block content %}
 <div class="container">
   <div class="row">
@@ -10,6 +10,9 @@
         {% include 'partials/bootstrap_form.html' with form=form %}
         <input type="submit" value="Log in" class="btn btn-primary">
       </form>
+      {% for message in messages %}
+      <p><b>{{ message }}</b></p>
+      {% endfor %}
     </div>
   </div>
 </div>
