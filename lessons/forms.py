@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import User
+from .models import User, Lesson
 
 class GenericSignUpForm(forms.ModelForm):
     class Meta:
@@ -63,3 +63,18 @@ class LogInForm(forms.Form):
 
     username = forms.CharField(label="Username")
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
+
+class LessonRequestForm(forms.ModelForm):
+    """Form for the user to request lessons.
+
+    The lesson author must be by the lesson requestor.
+    """
+
+    class Meta:
+        """Form options."""
+
+        model = Lesson
+        fields = ['number_of_lessons', 'lesson_duration', 'teacher']
+        number_of_lesson = forms.IntegerField(label='Number of lessons')
+        lesson_duration = forms.IntegerField(label='Lesson duration')
+        teacher = forms.CharField(label='Teacher')
