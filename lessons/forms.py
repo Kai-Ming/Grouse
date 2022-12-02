@@ -35,10 +35,10 @@ class LogInForm(forms.Form):
     username = forms.CharField(label="Username")
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
 
-class PostForm(forms.ModelForm):
-    """Form to ask user for post text.
+class LessonRequestForm(forms.ModelForm):
+    """Form for the user to request lessons.
 
-    The post author must be by the post creator.
+    The lesson author must be by the lesson requestor.
     """
 
     class Meta:
