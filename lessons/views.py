@@ -81,7 +81,7 @@ def user_page(request):
     return render(request, 'user_page.html')
 
 def admin_page(request):
-    curr_requests = 
+    curr_requests = models.Lesson.objects.filter(fulfilled="0")
 
     curr_records = models.Transfer.objects.filter()
 
