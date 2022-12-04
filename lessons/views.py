@@ -81,9 +81,9 @@ def user_page(request):
     return render(request, 'user_page.html')
 
 def admin_page(request):
-    curr_requests = {}
+    curr_requests = 
 
-    curr_records = {}
+    curr_records = models.Transfer.objects.filter()
 
 
     context = {
