@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Welcome Admin!</title>
+    <style>
+         body {
+            font-family: helvetica;
+            margin-left: 75px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+        .all_info {
+            text-align: right;
+            margin-right: 75px;
+        }
+        
+        .fulfil_requests_area, .record_transfer_area, .super_admin_area {
+            margin-top: 25px;
+            margin-bottom: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="all_info">
+        <h1>{{ curr_name }}: Home</h1>
+
+        <p>Username: {{ curr_username }}</p>
+        <p>Name: {{ curr_name }}</p>
+        <p>Email: {{ curr_email }}</p>
+    </div>
+
+    <div class="fulfil_requests_area">
+        <h2>Fulfil Requests:</h2>
+
+        {% for i in curr_requests %}
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Duration</th>
+                <th>Teacher</th>
+                <th colspan="2">Action</th>
+            </tr>
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.lesson_duration }}</td>
+                <td>{{ i.teacher }}</td>
+                <th><button id="accept-button">Accept</button></th>
+                <th><button id="reject-button">Reject</button></th>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <div class="record_transfer_area">
+        <h2>Record Transfer:</h2>
+        <form action="" id="record-transfer">
+            Amount Paid: <input type="text" name="Amount Paid" id="amount-paid">
+            Invoice Numbers: <select name="" id="invoice-numbers">
+                <option value="">test</option>
+                <option value="">test</option>
+            </select>
+            <button type="submit">Submit Record</button>
+        </form>
+
+    </div>
+
+    <div class="super_admin_area">
+        <h2>Create Admins:</h2>
+        <!-- Connect Fergans code here -->
+    </div>
+
+</body>
+</html>

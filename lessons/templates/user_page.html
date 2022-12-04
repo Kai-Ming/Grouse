@@ -42,9 +42,28 @@
         <p>Name: {{ curr_name }}</p>
         <p>Email: {{ curr_email }}</p>
     </div>
+
+    <div name="new_requests_area" >
+        <h1>New Requests</h1>
+        <form id="new-requests" action="">
+            Instrument: <select name="instrument" id="instrument">
+                <option value="guitar">Guitar</option>
+                <option value="piano">Piano</option>
+                <option value="violin">Violin</option>
+            </select>
+            Duration:<Select name="timespan" id="timespan">
+                <option value="30">30 Days</option>
+                <option value="30">45 Days</option>
+                <option value="30">60 Days</option>
+            </Select>
+
+            Teacher: <input type="text" name="teacher-requested" id="teacher-requested">
+            <button type="submit" id="submit-request-button">Submit Request</button>
+        </form>
+    </div>
+
     <div class="lessons">
-        <h2>Lessons: </h2>
-        <h3>Enrolled:</h3>
+        <h2>Past Requests: </h2>
         <div class="payment_key">            
             <b>Payment Status Key</b>
             <br>
@@ -75,31 +94,6 @@
             </tr>
             {% endfor %}
         </table>
-
-        <h3>Additional Lessons: </h3>
-        {% for i in other_lesson_data %}
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Start Date</th>
-                <th>Number of Lessons</th>
-                <th>Duration</th>
-                <th>Teacher</th>
-                <th>Price</th>
-                <th>Enroll</th>
-            </tr>
-            <tr>
-                <td>{{ i.id }}</td>
-                <td>{{ i.start_date }}</td>
-                <td>{{ i.start_date }}</td>
-                <td>{{ i.number_of_lessons }}</td>
-                <td>{{ i.teacher }}</td>
-                <td>{{ i.price }}</td>
-                <th><button type="submit">Enroll</button></th> <!-- Add this lesson to the associated user and remove from this list-->
-            </tr>
-            {% endfor %}
-        </table>
-
     </div>
 
     <div class="invoices">
