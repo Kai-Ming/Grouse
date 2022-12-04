@@ -47,3 +47,9 @@ class SignupFormTestCase:
         self.assertEqual(user.first_name, 'John')
         self.assertEqual(user.last_name, 'Doe')
         self.assertEqual(user.email, 'jd123@gmail.com')
+
+
+
+class LoginFormTestCase:
+    def setUp(self):
+        self.form_input = {'Username':'jd123', 'password':'password0'}
