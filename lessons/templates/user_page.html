@@ -51,10 +51,12 @@
                 <option value="piano">Piano</option>
                 <option value="violin">Violin</option>
             </select>
-            Duration:<Select name="timespan" id="timespan">
-                <option value="30">30 Days</option>
-                <option value="30">45 Days</option>
-                <option value="30">60 Days</option>
+            Number of Lessons:<input type="text" name="number-lessons" id="number-lessons" required>
+            Interval between Lessons: <input type="text" name="lesson-interval" id="lesson-interval" required>
+            Duration:<Select name="lesson-duration" id="lesson-duration" required>
+                <option value="30">30 Minutes</option>
+                <option value="30">45 Minutes</option>
+                <option value="30">60 Minutes</option>
             </Select>
 
             Teacher: <input type="text" name="teacher-requested" id="teacher-requested">

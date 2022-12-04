@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import User
+from .models import User, Lesson
 
 class GenericSignUpForm(forms.ModelForm):
     class Meta:
@@ -66,5 +66,19 @@ class LogInForm(forms.Form):
 
 
 class LessonRequestForm():
-    
-    return True
+    class Meta:
+        model = Lesson
+        fields = ['instrument', 'number_lessons', 'lesson_interval', 'lesson_duration', 'teacher']
+        instrument = forms.CharField(label='Name of Instrument')
+        number_lessons = forms.ChoiceField(label='Number of Lessons')
+        lesson_interval = forms.IntegerField(label='Interval between Lessons')
+        lesson_duration = forms.ChoiceField(label='Duration of Lesons')
+        teacher = forms.CharField(label='Requested Teacher Name')
+
+
+        
+
+class RecordTransferForm(forms.ModelForm):
+    def inputRecord(self):
+
+        return True
