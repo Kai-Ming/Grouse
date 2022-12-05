@@ -1,7 +1,5 @@
-
 from django import forms
 from .models import User, Lesson, Transfer
-import datetime
 from .models import User, Lesson
 
 class GenericSignUpForm(forms.ModelForm):
@@ -66,7 +64,6 @@ class LogInForm(forms.Form):
     username = forms.CharField(label="Username")
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
 
-
 class LessonRequestForm(forms.ModelForm):
     """Form for the user to request lessons.
 
@@ -88,5 +85,4 @@ class RecordTransferForm(forms.ModelForm):
         model = Transfer
         fields = ['amount', 'invoice_number', 'date']
         amount = forms.CharField(label='Amount Paid by Student')
-        invoice_number = forms.ChoiceField('Invoice Number')
-        date = datetime.date.today()
+        invoice_number = forms.IntegerField(label='Invoice Number')

@@ -71,17 +71,17 @@ def log_out(request):
 
 @login_required
 def user_page(request):
-    curr_username = request.user.username()
-    curr_name = request.get_full_name()
+    curr_username = request.user.username
+    curr_name = request.user.first_name + request.user.last_name
     curr_email = request.user.email
 
     curr_id = request.user.id
 
-    curr_enrolled_lessons = models.Lesson.objects.filter(student_id=curr_id)
+    curr_enrolled_lessons = Lesson.objects.filter(student=curr_id)
     
-    # Continue here. Figure out how the invoice system works and continue from here
+    """ # Continue here. Figure out how the invoice system works and continue from here
     # May or may not work -- Need to test
-    invoice_list = models.Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id])
+    invoice_list = models.Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id]) """
 
 
     context = {
@@ -89,7 +89,7 @@ def user_page(request):
         'curr_name': curr_name,
         'curr_email': curr_email,
         'enrolled_lesson_data': curr_enrolled_lessons,
-        'invoice_list': invoice_list
+        #'invoice_list': invoice_list
     }
 
 

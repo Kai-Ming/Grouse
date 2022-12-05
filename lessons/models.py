@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.core.validators import MinValueValidator
-from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -70,18 +70,6 @@ class Lesson(models.Model):
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
 
-    """ ef _validate_teacher_field(self):
-        if (self.fulfilled == True and self.teacher == ''):
-            raise ValidationError
-
-    def save(self, *args, **kwargs):
-        self.__validate_teacher_field()
-        return super().save(*args, **kwargs)
-        
-    def save(self, *args, **kwargs):
-        self.__validate_teacher_field()
-        return super().save(*args, **kwargs) """
-
 class Invoice(models.Model):
     """An invoice for a lesson."""
 
@@ -103,6 +91,7 @@ class Invoice(models.Model):
 class Transfer(models.Model):
     """A transfer made by the student to the music school's bank account."""
 
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    invoice_number = models.IntegerField()
     amount = models.DecimalField(max_digits=6, decimal_places=2)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
+
