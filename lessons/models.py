@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
 
 
 class User(AbstractUser):
@@ -42,7 +43,8 @@ class Student(User):
 
 
 class Lesson(models.Model):
-
+    """The model of a lesson that can be requested and fulfilled"""
+    
     LESSON_NUMBER_CHOICES = (
         (1,"1"),
         (2,"2")    
@@ -53,21 +55,32 @@ class Lesson(models.Model):
         (60,"60")
     ) 
     PAID_TYPE_CHOICES = (
-        (1, "unpaid"),
-        (2, "paid"),
-        (3, "partially paid"),
-        (4, "overpaid")
+        (1, "Unpaid"),
+        (2, "Paid"),
+        (3, "Partially paid"),
+        (4, "Overpaid")
     )
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
-    teacher = models.CharField(max_length=100)
+    teacher = models.CharField(max_length=100, default='', blank=True)
     price = models.FloatField(validators=[MinValueValidator(0)])
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
 
+    """ ef _validate_teacher_field(self):
+        if (self.fulfilled == True and self.teacher == ''):
+            raise ValidationError
+
+    def save(self, *args, **kwargs):
+        self.__validate_teacher_field()
+        return super().save(*args, **kwargs)
+        
+    def save(self, *args, **kwargs):
+        self.__validate_teacher_field()
+        return super().save(*args, **kwargs) """
 
 class Invoice(models.Model):
     """An invoice for a lesson."""

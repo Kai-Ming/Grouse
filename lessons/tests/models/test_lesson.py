@@ -27,7 +27,7 @@ class LessonTest(TestCase):
 
     def test_teacher_cannot_be_blank(self):
         self.lesson.teacher = ''
-        self._assert_lesson_is_invalid()
+        self._assert_lesson_is_valid()
 
     def test_number_of_lessons_cannot_be_negative(self):
         self.lesson.number_of_lessons = -1

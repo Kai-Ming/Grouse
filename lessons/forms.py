@@ -2,6 +2,7 @@
 from django import forms
 from .models import User, Lesson, Transfer
 import datetime
+from .models import User, Lesson
 
 class GenericSignUpForm(forms.ModelForm):
     class Meta:
@@ -66,17 +67,20 @@ class LogInForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
 
 
-class LessonRequestForm():
+class LessonRequestForm(forms.ModelForm):
+    """Form for the user to request lessons.
+
+    The lesson author must be by the lesson requestor.
+    """
+
     class Meta:
+        """Form options."""
+
         model = Lesson
-        fields = ['instrument', 'number_lessons', 'lesson_interval', 'lesson_duration', 'teacher']
-        instrument = forms.CharField(label='Name of Instrument')
-        number_lessons = forms.ChoiceField(label='Number of Lessons')
-        lesson_interval = forms.IntegerField(label='Interval between Lessons')
-        lesson_duration = forms.ChoiceField(label='Duration of Lesons')
-        teacher = forms.CharField(label='Requested Teacher Name')
-
-
+        fields = ['number_of_lessons', 'lesson_duration', 'teacher']
+        number_of_lesson = forms.IntegerField(label='Number of lessons')
+        lesson_duration = forms.IntegerField(label='Lesson duration')
+        teacher = forms.CharField(label='Teacher')
         
 
 class RecordTransferForm(forms.ModelForm):
