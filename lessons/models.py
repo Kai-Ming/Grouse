@@ -91,7 +91,7 @@ class Invoice(models.Model):
 class Transfer(models.Model):
     """A transfer made by the student to the music school's bank account."""
 
-    invoice_number = models.CharField(default='0-0', max_length=1000)
+    invoice_number = models.CharField(default='0-0', max_length=50)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     date = models.DateTimeField(default=timezone.now)
 
