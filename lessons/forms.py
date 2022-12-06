@@ -106,16 +106,24 @@ class LessonRequestForm(forms.ModelForm):
 class RecordTransferForm(forms.ModelForm):
     class Meta:
         model = Transfer
-        fields = ['amount', 'invoice_number', 'date']
-        amount = forms.CharField(label='Amount Paid by Student')
-        invoice_number = forms.ChoiceField(label='Invoice Number')
-        date = datetime.date.today()
+        fields = ['amount-paid', 'invoice_number', 'date']
+   
+    amount_paid = forms.CharField(label='Amount Paid by Student')
+    invoice_number = forms.ChoiceField(label='Invoice Number')
+    date = datetime.date.today()
 
-        def save(self):
-            super().save(commit=False)
+    def clean(self):
+        super().clean()
 
-            transfer = Transfer(
-                
-            )
+    def save(self):
+        super().save(commit=False)
+
+        transfer = Transfer.objects.create(
+            invoice_number = invoice_number,
+            amount = amount,
+            date = date
+        )
+        
+        return transfer
 
             

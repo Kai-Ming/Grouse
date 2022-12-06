@@ -64,8 +64,8 @@
     <div class="record_transfer_area">
         <h2>Record Transfer:</h2>
         <form action="" id="record-transfer">
-            Amount Paid: <input type="text" name="Amount Paid" id="amount-paid">
-            Invoice Numbers: <select name="" id="invoice-numbers">
+            Amount Paid: <input type="text" name="Amount Paid" id="amount_paid">
+            Invoice Numbers: <select name="" id="invoice_numbers">
                 {% csrf_token %}
                 {% for i in curr_records %}
                     <option value="{{ i.invoice_id }}">{{ i.invoice_id }}</option>
