@@ -89,18 +89,18 @@ class RecordTransferForm(forms.ModelForm):
     invoice_number = forms.ChoiceField(label='Invoice Number')
     date = datetime.date.today()
 
-    def clean(self):
+    """ def clean(self):
         super().clean()
 
     def save(self):
         super().save(commit=False)
 
         transfer = Transfer.objects.create(
-            invoice_number = self.invoice_number,
-            amount = self.amount_paid,
-            date = self.date
+            invoice_number = invoice_number,
+            amount = amount,
+            date = date
         )
         
-        return transfer
+        return transfer """
 
             
