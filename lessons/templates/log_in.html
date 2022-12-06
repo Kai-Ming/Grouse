@@ -11,10 +11,7 @@
         <input type="submit" value="Log in" class="btn btn-primary">
       </form>
       <br>
-      <form action="{% url 'student_sign_up' %}" method="get">
-        {% csrf_token %}
-        <input type="submit" value="Sign up" class="btn btn-primary">
-      </form>
+      <a class="btn btn-primary" href="{% url 'student_sign_up' %}">Sign up</a>
       {% for message in messages %}
       <p><b>{{ message }}</b></p>
       {% endfor %}

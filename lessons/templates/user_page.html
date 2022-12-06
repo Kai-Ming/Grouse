@@ -1,125 +1,21 @@
-﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Welcome User!</title>
-    <style>
-        body {
-            font-family: helvetica;
-            margin-left: 75px;
-        }
-
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 10px;
-        }
-
-        .all_info {
-            text-align: right;
-            margin-right: 75px;
-        }
-
-        .lessons, .invoices {
-            margin-top: 25px;
-            margin-bottom: 50px;
-        }
-
-        .payment_key {
-            font-size: 10px;
-            margin-left: 25px;
-            margin-bottom: 25px;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="all_info">
-        <h1>{{ curr_name }}: Home</h1>
-
-        <p>Username: {{ curr_username }}</p>
-        <p>Name: {{ curr_name }}</p>
-        <p>Email: {{ curr_email }}</p>
+﻿{% extends 'base_content.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-lg-6 col-xl-4">
+        <h1>Home</h1>
+        {% include 'partials/user_profile.html' %}
+        <a class="btn btn-primary" href="{% url 'lesson_request' %}">Request a lesson</a>
     </div>
-
-    <div name="new_requests_area" >
-        <h1>New Requests</h1>
-        <form id="new-requests" action="">
-            Instrument: <select name="instrument" id="instrument">
-                <option value="guitar">Guitar</option>
-                <option value="piano">Piano</option>
-                <option value="violin">Violin</option>
-            </select>
-            Number of Lessons:<input type="text" name="number-lessons" id="number-lessons" required>
-            Interval between Lessons: <input type="text" name="lesson-interval" id="lesson-interval" required>
-            Duration:<Select name="lesson-duration" id="lesson-duration" required>
-                <option value="30">30 Minutes</option>
-                <option value="30">45 Minutes</option>
-                <option value="30">60 Minutes</option>
-            </Select>
-
-            Teacher: <input type="text" name="teacher-requested" id="teacher-requested">
-            <button type="submit" id="submit-request-button">Submit Request</button>
-        </form>
-    </div>
-
-    <div class="lessons">
-        <h2>Past Requests: </h2>
-        <div class="payment_key">            
-            <b>Payment Status Key</b>
-            <br>
-            1 -> Unpaid
-            <br>
-            2 -> Paid
-            <br>
-            3 -> Partially Paid
-            <br>
-            4 -> Overpaid
-        </div>
-
-        {% for i in enrolled_lesson_data %}
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Duration</th>
-                <th>Teacher</th>
-                <th>Price</th>
-                <th>Payment Status</th>
-            </tr>
-            <tr>
-                <td>{{ i.id }}</td>a
-                <td>{{ i.lesson_duration }}</td>
-                <td>{{ i.teacher }}</td>
-                <td>{{ i.price }}</td>
-                <td>{{ i.paid_type }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <div class="invoices">
-        <h2>Invoices: </h2>
-        {% for i in invoice_list %}
-        <table>
-            <tr>
-                <th>Invoice Number</th>
-                <th>Amount Due</th>
-                <th>Date Due</th>
-                <th>Date Created</th>
-                <th>Date Updated</th>
-                <th>Invoice</th>
-            </tr>
-            <tr>
-                <td>{{ i.invoice_no }}</td>
-                <td>{{ i.due_amount }}</td>
-                <td>{{ i.due_date }}</td>
-                <td>{{ i.created_at }}</td>
-                <td>{{ i.updated_at }}</td>
-                <td><button type="submit">Invoice</button></td> <!-- Create a PDF for the user to view -->
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-</body>
-</html>
+  </div>
+  <br>
+  <div class="col-xs-12 col-lg-6 col-xl-8">
+    <h1>Lessons</h1>
+    {% include 'partials/lesson_as_table.html' with lessons=lessons %}
+  </div>
+  <div class="col-xs-12 col-lg-6 col-xl-8">
+    <h1>Invoices</h1>
+    <!--  For adding the invoices to show -->
+  </div>
+</div>
+{% endblock %}

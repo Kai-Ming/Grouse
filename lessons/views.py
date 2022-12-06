@@ -87,7 +87,7 @@ def user_page(request):
 
     curr_id = request.user.id
 
-    curr_enrolled_lessons = Lesson.objects.filter(student=curr_id)
+    lessons = Lesson.objects.filter(student=curr_id)
     
     """ # Continue here. Figure out how the invoice system works and continue from here
     # May or may not work -- Need to test
@@ -98,12 +98,11 @@ def user_page(request):
         'curr_username': curr_username,
         'curr_name': curr_name,
         'curr_email': curr_email,
-        'enrolled_lesson_data': curr_enrolled_lessons,
+        'enrolled_lesson_data': lessons,
         #'invoice_list': invoice_list
     }
-
-
-    return render(request, 'user_page.html')
+    
+    return render(request, 'user_page.html',{'lessons': lessons})
 
 def admin_page(request):
     curr_requests = models.Lesson.objects.filter(fulfilled="0")
