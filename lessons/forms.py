@@ -83,9 +83,9 @@ class LessonRequestForm(forms.ModelForm):
 class RecordTransferForm(forms.ModelForm):
     class Meta:
         model = Transfer
-        fields = ['amount-paid', 'invoice_number', 'date']
+        fields = ['amount', 'invoice_number', 'date']
    
-    amount_paid = forms.CharField(label='Amount Paid by Student')
+    amount = forms.CharField(label='Amount Paid by Student')
     invoice_number = forms.ChoiceField(label='Invoice Number')
     date = datetime.date.today()
 
