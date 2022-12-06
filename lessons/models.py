@@ -62,11 +62,11 @@ class Lesson(models.Model):
     )
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField()
+    start_date = models.DateField(auto_now=True)
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
     teacher = models.CharField(max_length=100, default='', blank=True)
-    price = models.FloatField(validators=[MinValueValidator(0)])
+    price = models.FloatField(validators=[MinValueValidator(0)], default=0)
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
 
@@ -91,7 +91,7 @@ class Invoice(models.Model):
 class Transfer(models.Model):
     """A transfer made by the student to the music school's bank account."""
 
-    invoice_number = models.IntegerField()
+    invoice_number = models.CharField(default='0-0', max_length=1000)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     date = models.DateTimeField(default=timezone.now)
 

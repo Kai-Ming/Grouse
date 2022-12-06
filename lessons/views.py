@@ -1,20 +1,30 @@
-
-from django.shortcuts import redirect,render
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
+from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, FormView, UpdateView
+from django.urls import reverse
 from .checks import *
 from .forms import *
 from .models import *
-
+from .helpers import login_prohibited
+""" 
 def login_prohibited(view_function):
     def modified_view_function(request):
         if request.user.is_authenticated:
             return redirect('user_page')
         else:
             return view_function(request)
-    return modified_view_function
+    return modified_view_function """
 
 def student_sign_up(request):
     if request.method == "POST":
@@ -107,3 +117,18 @@ def admin_page(request):
     }
 
     return(render, 'admin_page.html')
+
+@login_required
+def lesson_request(request):
+    if request.method == "POST":
+        form = LessonRequestForm(request.POST)
+        if form.is_valid():
+            student = request.user
+            number_of_lessons = form.cleaned_data.get('number_of_lessons')
+            lesson_duration = form.cleaned_data.get('lesson_duration')
+            teacher = form.cleaned_data.get('teacher')
+            lesson = Lesson.objects.create(student=student, number_of_lessons=number_of_lessons, lesson_duration=lesson_duration, teacher=teacher)
+            return redirect('user_page')
+    else:
+        form = LessonRequestForm()
+    return render(request, 'lesson_request.html', {'form': form})
