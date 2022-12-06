@@ -31,6 +31,7 @@
 <body>
     <div class="all_info">
         <h1>{{ curr_name }}: Home</h1>
+        {% csrf_token %}
 
         <p>Username: {{ curr_username }}</p>
         <p>Name: {{ curr_name }}</p>
@@ -39,7 +40,7 @@
 
     <div class="fulfil_requests_area">
         <h2>Fulfil Requests:</h2>
-
+        {% csrf_token %}
         {% for i in curr_requests %}
         <table>
             <tr>
@@ -65,6 +66,7 @@
         <form action="" id="record-transfer">
             Amount Paid: <input type="text" name="Amount Paid" id="amount-paid">
             Invoice Numbers: <select name="" id="invoice-numbers">
+                {% csrf_token %}
                 {% for i in curr_records %}
                     <option value="{{ i.invoice_id }}">{{ i.invoice_id }}</option>
                 {% endfor %}
