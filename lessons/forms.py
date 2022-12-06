@@ -85,4 +85,9 @@ class RecordTransferForm(forms.ModelForm):
         model = Transfer
         fields = ['amount', 'invoice_number', 'date']
         amount = forms.CharField(label='Amount Paid by Student')
+<<<<<<< Updated upstream
         invoice_number = forms.IntegerField(label='Invoice Number')
+=======
+        invoice_number = forms.ChoiceField(label='Invoice Number')
+        date = datetime.date.today()
+>>>>>>> Stashed changes
