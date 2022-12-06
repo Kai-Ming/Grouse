@@ -97,7 +97,7 @@ class RecordTransferForm(forms.ModelForm):
 
         transfer = Transfer.objects.create(
             invoice_number = self.invoice_number,
-            amount = self.amount,
+            amount = self.amount_paid,
             date = self.date
         )
         
