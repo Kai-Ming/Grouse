@@ -1,4 +1,5 @@
 from django import forms
+from django.db import models
 from .models import User, Lesson, Transfer
 from django.contrib.auth import authenticate
 from django.core.validators import RegexValidator
@@ -61,6 +62,7 @@ class AdultSignUpForm(GenericSignUpForm):
         )
         return user
 
+
 class TeacherSignUpForm(GenericSignUpForm):
     def save(self):
         super().save()
@@ -108,14 +110,6 @@ class LessonRequestForm(forms.ModelForm):
         teacher = forms.CharField(label='Teacher')
 
 
-class LessonFulfillForm(forms.Form):
-    """Form for fulfilling lesson requests."""
-    class Meta:
-        """Form options."""
-
-        pass
-        
-
 class RecordTransferForm(forms.ModelForm):
     class Meta:
         model = Transfer
@@ -138,5 +132,3 @@ class RecordTransferForm(forms.ModelForm):
         )
         
         return transfer
-
-            

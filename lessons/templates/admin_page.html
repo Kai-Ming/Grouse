@@ -11,11 +11,7 @@
 
     <div class="invoicing_area">
         <h2>Generate or Update Invoice:</h2>
-        <form action="{% url 'admin_page' %}" method="post">
-            {% csrf_token %}
-            {% include 'partials/bootstrap_form.html' with form=form %}
-        <input type="submit" value="Generate" class="btn btn-primary">
-      </form>
+        {% include 'partials/generate_invoice.html' with lessons=fulfilled_lessons %}
     </div>
 
     <div class="record_transfer_area">

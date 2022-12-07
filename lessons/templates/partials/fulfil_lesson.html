@@ -25,10 +25,11 @@
       <td>{{ lesson.price }}</td>
       <td>{{ lesson.get_paid_type_display }}</td>
       <td>
-        <form action="{% url 'admin_page' %}" method="post" >
-            <input id="accept" type="submit" name="accept" value="Accept" class="btn btn-primary" />
-            <input id="edit" type="submit" name="reject" value="Reject" class="btn btn-primary" />
-        </form>
+          <form action="{% url 'admin_page' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" name="accept" value="{{lesson.id}}" class="btn btn-primary">Accept</button>
+              <button type="submit" name="reject" value="{{lesson.id}}" class="btn btn-primary">Reject</button>
+          </form>
       </td>
     </tr>
   </tbody>
