@@ -1,13 +1,16 @@
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
-from lessons.models import User, Lesson
+from lessons.models import User, Lesson, Invoice, Transfer
 from django.db.utils import IntegrityError
 import datetime
 import random
+from django.utils import timezone
+
 
 class Command(BaseCommand):
     PASSWORD = "Password123"
     USER_COUNT = 100
+    INVOICE_COUNT = 100
 
     def __init__(self):
         super().__init__()
@@ -38,6 +41,19 @@ class Command(BaseCommand):
             print('Failed admin seeding')
 
         print('User seeding complete')
+
+        # Seed invoices and transfers.
+        invoice_count = 0
+        while invoice_count < Command.INVOICE_COUNT:
+            try:
+                print(f'Seeding invoice {invoice_count}',  end='\r')
+                self._create_invoice()
+                self._create_transfer()     # create the same amount of transfers as invoices
+                invoice_count += 1
+            except IntegrityError as err:
+                print(f'Failed invoice and transfer seeding: {err}')
+                continue
+        print('Invoice seeding complete.')
 
     # Creates a random user
     def _create_user(self, type):
@@ -92,3 +108,44 @@ class Command(BaseCommand):
             paid_type = paid_type
         )    
         lesson.save()    
+
+    # Create an invoice number in the proper format.
+    def _invoice_no(self):
+        n1 = random.randint(1, 9999)
+        n2 = random.randint(1, 9999)
+        student_no = f'{n1:04}'
+        invoice_id = f'{n2:04}'
+
+        return f'{student_no}-{invoice_id}'
+
+    # Create the due amount in the proper format (currency).
+    def _due_amount(self):
+        return str(round(random.uniform(0.01, 99.99), 2))
+
+    # Create the due date.
+    def _due_date(self):
+        return timezone.now()
+
+    # Create an invoice object.
+    def _create_invoice(self):
+        Invoice.objects.create(
+            invoice_no=self._invoice_no(),
+            due_amount=self._due_amount(),
+            due_date=self._due_date()
+        )
+
+    # Create an invoice number that is associated with the transfer.
+    def _transfer_invoice_no(self):
+        return self._invoice_no()
+
+    # Create an amount paid by the student.
+    def _amount(self):
+        return self._due_amount()
+
+    # Create a transfer object.
+    def _create_transfer(self):
+        Transfer.objects.create(
+            invoice_number=self._invoice_no(),
+            amount=self._amount(),
+            date=self._due_date()
+        )
