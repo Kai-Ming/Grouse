@@ -22,9 +22,9 @@ def admin_login_prohibited(view_function):
 def admin_login_required(view_function):
     def modified_view_function(request):
         if request.user.user_type == 5:
-            return redirect("admin_page")
+            return view_function(request)
         elif request.user.user_type == 4:
-            return redirect("admin_page")
+            return view_function(request)
         else:
             return redirect(settings.REDIRECT_URL_WHEN_LOGGED_IN)
     return modified_view_function

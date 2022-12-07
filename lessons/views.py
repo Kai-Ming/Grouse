@@ -86,7 +86,7 @@ def user_page(request):
     curr_id = request.user.id
     lessons = Lesson.objects.filter(student=curr_id)
 
-    # Still needs testing.
+    # Still needs testingg.
     invoices = Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id])
 
     context = {
