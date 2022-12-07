@@ -69,6 +69,7 @@ class Lesson(models.Model):
     price = models.FloatField(validators=[MinValueValidator(0)], default=0)
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
+    invoice = models.CharField(max_length=25, blank=False, default='No associated invoice.')
 
 
 class Invoice(models.Model):
