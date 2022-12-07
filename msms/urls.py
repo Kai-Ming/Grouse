@@ -26,4 +26,5 @@ urlpatterns = [
     path('adult_sign_up/', views.adult_sign_up, name='adult_sign_up'),
     path('log_in/', views.log_in, name='log_in'),
     path('user_page/', views.user_page, name='user_page'),
+    path('lesson_request/', views.lesson_request, name='lesson_request'),
 ]

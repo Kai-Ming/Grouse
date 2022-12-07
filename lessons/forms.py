@@ -1,6 +1,6 @@
-
 from django import forms
-from .models import User, Lesson
+from .models import User, Lesson, Transfer
+import datetime
 
 class GenericSignUpForm(forms.ModelForm):
     class Meta:
@@ -78,3 +78,29 @@ class LessonRequestForm(forms.ModelForm):
         number_of_lesson = forms.IntegerField(label='Number of lessons')
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')
+        
+
+class RecordTransferForm(forms.ModelForm):
+    class Meta:
+        model = Transfer
+        fields = ['amount', 'invoice_number', 'date']
+   
+    amount = forms.CharField(label='Amount Paid by Student')
+    invoice_number = forms.ChoiceField(label='Invoice Number')
+    date = datetime.date.today()
+
+    """ def clean(self):
+        super().clean()
+
+    def save(self):
+        super().save(commit=False)
+
+        transfer = Transfer.objects.create(
+            invoice_number = invoice_number,
+            amount = amount,
+            date = date
+        )
+        
+        return transfer """
+
+            

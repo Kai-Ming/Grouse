@@ -3,18 +3,15 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12 col-md-6 offset-md-3">
-      <h1>Log in</h1>
-      <form action="{% url 'log_in' %}" method="post">
+      <h1>Lesson Request</h1>
+      <form action="{% url 'lesson_request' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
         {% include 'partials/bootstrap_form.html' with form=form %}
-        <input type="submit" value="Log in" class="btn btn-primary">
+        <input type="submit" value="Request a lesson" class="btn btn-primary">
       </form>
       <br>
-      <a class="btn btn-primary" href="{% url 'student_sign_up' %}">Sign up</a>
-      {% for message in messages %}
-      <p><b>{{ message }}</b></p>
-      {% endfor %}
+      <a class="btn btn-primary" href="{% url 'user_page' %}">Back to home</a>
     </div>
   </div>
 </div>

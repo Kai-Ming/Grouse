@@ -50,7 +50,6 @@ class Command(BaseCommand):
         if (type == 5):
             is_superuser = True
             is_staff = True
-            print(username + " ")
 
         student = User.objects.create_user(
             username,
