@@ -24,10 +24,18 @@ class InvoiceModelTestCase(TestCase):
         self.invoice.invoice_no = ''
         self._assert_invoice_is_invalid()
 
+    def test_invoice_number_too_long(self):
+        self.invoice.invoice_no = '12345678901234567890123456789-12345678901234567890123456789'
+        self._assert_invoice_is_invalid() 
+
     # Due amount
     def test_due_amount_must_not_be_blank(self):
         self.invoice.due_amount = ''
         self._assert_invoice_is_invalid()
+
+    def test_due_amount_is_int(self):
+        if self.invoice.due_amount != int(float(self.invoice.due_amount)):
+            self._assert_invoice_is_invalid
 
     def test_due_amount_must_not_have_more_than_two_decimal_places(self):
         self.invoice.due_amount = '1.234'

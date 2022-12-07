@@ -1,11 +1,21 @@
-﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>User page under construction</title>
-</head>
-<body>
-    <h1>User page under construction</h1>
-</body>
-</html>
+{% extends 'base_content.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-lg-6 col-xl-4">
+        <h1>Home</h1>
+        {% include 'partials/user_profile.html' %}
+        <a class="btn btn-primary" href="{% url 'lesson_request' %}">Request a lesson</a>
+    </div>
+  </div>
+  <br>
+  <div class="col-xs-12 col-lg-6 col-xl-8">
+    <h1>Lessons</h1>
+    {% include 'partials/lesson_as_table.html' with lessons=lessons %}
+  </div>
+  <div class="col-xs-12 col-lg-6 col-xl-8">
+    <h1>Invoices</h1>
+    <!--  For adding the invoices to show -->
+  </div>
+</div>
+{% endblock %}

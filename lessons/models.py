@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.core.validators import MinValueValidator
-from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -62,25 +62,13 @@ class Lesson(models.Model):
     )
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField()
+    start_date = models.DateField(auto_now=True)
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
     teacher = models.CharField(max_length=100, default='', blank=True)
-    price = models.FloatField(validators=[MinValueValidator(0)])
+    price = models.FloatField(validators=[MinValueValidator(0)], default=0)
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
-
-    """ ef _validate_teacher_field(self):
-        if (self.fulfilled == True and self.teacher == ''):
-            raise ValidationError
-
-    def save(self, *args, **kwargs):
-        self.__validate_teacher_field()
-        return super().save(*args, **kwargs)
-        
-    def save(self, *args, **kwargs):
-        self.__validate_teacher_field()
-        return super().save(*args, **kwargs) """
 
 class Invoice(models.Model):
     """An invoice for a lesson."""
@@ -103,6 +91,7 @@ class Invoice(models.Model):
 class Transfer(models.Model):
     """A transfer made by the student to the music school's bank account."""
 
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    invoice_number = models.CharField(default='0-0', max_length=50)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
+
