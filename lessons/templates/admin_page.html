@@ -1,41 +1,7 @@
-<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Welcome Admin!</title>
-    <style>
-         body {
-            font-family: helvetica;
-            margin-left: 75px;
-        }
-
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 10px;
-        }
-
-        .all_info {
-            text-align: right;
-            margin-right: 75px;
-        }
-        
-        .fulfil_requests_area, .record_transfer_area, .super_admin_area {
-            margin-top: 25px;
-            margin-bottom: 50px;
-        }
-
-    </style>
-</head>
-<body>
+{% extends 'base_content.html' %}
+{% block content %}
     <div class="all_info">
-        <h1>{{ curr_name }}: Home</h1>
-        {% csrf_token %}
-
-        <p>Username: {{ curr_username }}</p>
-        <p>Name: {{ curr_name }}</p>
-        <p>Email: {{ curr_email }}</p>
+        {% include 'partials/user_profile.html' %}
     </div>
 
     <div class="fulfil_requests_area">
@@ -58,7 +24,11 @@
             </tr>
             {% endfor %}
         </table>
+    </div>
 
+    <div class="invoicing_area">
+        <h2>Generate or Update Invoice:</h2>
+        <!-- implement invoicing after fixes.-->
     </div>
 
     <div class="record_transfer_area">
@@ -74,13 +44,5 @@
 
             <button type="submit">Submit Record</button>
         </form>
-
     </div>
-
-    <div class="super_admin_area">
-        <h2>Create Admins:</h2>
-        <!-- Connect Fergans code here -->
-    </div>
-
-</body>
-</html>
+{% endblock %}
