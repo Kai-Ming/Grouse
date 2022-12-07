@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.core.validators import RegexValidator
 import datetime
 
+
 class GenericSignUpForm(forms.ModelForm):
     """A generic form for signing up any user"""
     class Meta:
@@ -30,6 +31,7 @@ class GenericSignUpForm(forms.ModelForm):
 
     def save(self):
         super().save(commit=False)
+
 
 class StudentSignUpForm(GenericSignUpForm):
     """View that signs up the student."""
@@ -72,6 +74,7 @@ class TeacherSignUpForm(GenericSignUpForm):
         )
         return user
 
+
 class LogInForm(forms.Form):
     """Form to log in the user"""
 
@@ -88,6 +91,7 @@ class LogInForm(forms.Form):
             user = authenticate(username=username, password=password)
         return user
 
+
 class LessonRequestForm(forms.ModelForm):
     """Form for the user to request lessons.
 
@@ -102,6 +106,14 @@ class LessonRequestForm(forms.ModelForm):
         number_of_lesson = forms.IntegerField(label='Number of lessons')
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')
+
+
+class LessonFulfillForm(forms.Form):
+    """Form for fulfilling lesson requests."""
+    class Meta:
+        """Form options."""
+
+        pass
         
 
 class RecordTransferForm(forms.ModelForm):

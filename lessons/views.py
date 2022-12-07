@@ -92,33 +92,39 @@ def user_page(request):
     curr_email = request.user.email
 
     curr_id = request.user.id
-
     lessons = Lesson.objects.filter(student=curr_id)
-    
-    """ # Continue here. Figure out how the invoice system works and continue from here
-    # May or may not work -- Need to test
-    invoice_list = models.Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id]) """
 
+    # Still needs testing.
+    invoices = Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id])
 
     context = {
         'curr_username': curr_username,
         'curr_name': curr_name,
         'curr_email': curr_email,
         'lessons': lessons,
-        # implement after fixes 'invoice_list': invoice_list
+        'invoices': invoices
     }
     
     return render(request, 'user_page.html', context)
 
 
 def admin_page(request):
-    curr_requests = Lesson.objects.filter(fulfilled="0")
+    curr_username = request.user.username
+    curr_name = request.user.first_name + request.user.last_name
+    curr_email = request.user.email
 
+    curr_requests = Lesson.objects.filter(fulfilled="0")
     curr_records = Transfer.objects.all()
 
+    if request.method == "POST":
+        pass
+
     context = {
+        'curr_username': curr_username,
+        'curr_name': curr_name,
+        'curr_email': curr_email,
         'curr_requests': curr_requests,
-        'curr_records': curr_records
+        'curr_records': curr_records,
     }
 
     return render(request, 'admin_page.html', context)
