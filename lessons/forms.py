@@ -1,4 +1,5 @@
 from django import forms
+from django.db import models
 from .models import User, Lesson, Transfer
 from django.contrib.auth import authenticate
 from django.core.validators import RegexValidator
@@ -108,12 +109,11 @@ class LessonRequestForm(forms.ModelForm):
         teacher = forms.CharField(label='Teacher')
 
 
-class LessonFulfillForm(forms.Form):
+class LessonFulfillForm(forms.ModelForm):
     """Form for fulfilling lesson requests."""
     class Meta:
-        """Form options."""
-
-        pass
+        model = Lesson
+        fields = ['id']
         
 
 class RecordTransferForm(forms.ModelForm):

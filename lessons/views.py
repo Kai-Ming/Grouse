@@ -1,3 +1,5 @@
+from wsgiref.util import request_uri
+from django.db import models
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -6,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from django.http import HttpResponseForbidden, Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView
@@ -117,7 +119,18 @@ def admin_page(request):
     curr_records = Transfer.objects.all()
 
     if request.method == "POST":
-        pass
+        if request.POST.get("accept"):
+            form = LessonFulfillForm(request.POST)
+            lesson = get_object_or_404(Lesson)
+            lesson.fulfilled = True
+            lesson.save(update_fields = ["fulfilled"])
+            return redirect("admin_page")
+        else:
+            form = LessonFulfillForm(request.POST)
+            lesson = get_object_or_404(Lesson)
+            lesson.delete()
+            return redirect("admin_page")
+
 
     context = {
         'curr_username': curr_username,
