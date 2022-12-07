@@ -16,6 +16,9 @@ from django.urls import reverse
 from .forms import *
 from .models import *
 from .helpers import *
+from django.utils import timezone
+from datetime import timedelta
+from django.db.utils import IntegrityError
 
 
 def student_sign_up(request):
@@ -117,13 +120,54 @@ def admin_page(request):
             lesson.fulfilled = True
             lesson.save(update_fields=["fulfilled"])
             return redirect("admin_page")
+
         elif request.POST.get("reject"):
             lesson = Lesson.objects.get(pk=request.POST['reject'][0])
             lesson.delete()
             return redirect("admin_page")
+
         elif request.POST.get("generate"):
-            # create an invoice object here
-            return redirect("admin_page")
+            invoice_no = ''
+
+            lesson = Lesson.objects.get(pk=request.POST['generate'][0])
+            user_id = lesson.student_id
+            student_no = f'{user_id:04}'
+
+            due_amount = lesson.price
+
+            if lesson.lesson_duration == 45:
+                due_amount = lesson.price * 2
+            elif lesson.lesson_duration == 60:
+                due_amount = lesson.price * 3
+
+            due_date = timezone.now() + timedelta(days=30)      # all invoices are due 30 day after invoice is created
+
+            n = 0
+            while True:
+                try:
+                    n += 1
+                    invoice_no = f'{student_no}-{n:04}'
+
+                    Invoice.objects.create(
+                        invoice_no=invoice_no,
+                        due_amount=due_amount,
+                        due_date=due_date
+                    )
+
+                    print(f'Generated invoice: {invoice_no}')
+                    break
+                except IntegrityError:
+                    continue
+
+            lesson.invoice = invoice_no
+            lesson.save(update_fields=['invoice'])
+
+            return redirect('admin_page')
+
+        elif request.POST.get('record_transfer'):
+            # create a transfer here
+            # update the associated lesson paid type
+            return redirect('admin_page')
 
     context = {
         'curr_username': curr_username,
