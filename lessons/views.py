@@ -84,20 +84,17 @@ def user_page(request):
     curr_email = request.user.email
 
     curr_id = request.user.id
-
     lessons = Lesson.objects.filter(student=curr_id)
-    
-    """ # Continue here. Figure out how the invoice system works and continue from here
-    # May or may not work -- Need to test
-    invoice_list = models.Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id]) """
 
+    # Still needs testing.
+    invoices = Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id])
 
     context = {
         'curr_username': curr_username,
         'curr_name': curr_name,
         'curr_email': curr_email,
         'lessons': lessons,
-        # implement after fixes 'invoice_list': invoice_list
+        'invoices': invoices
     }
     
     return render(request, 'user_page.html', context)
@@ -105,13 +102,33 @@ def user_page(request):
 @login_required
 @admin_login_required
 def admin_page(request):
-    curr_requests = Lesson.objects.filter(fulfilled="0")
+    curr_username = request.user.username
+    curr_name = request.user.first_name + request.user.last_name
+    curr_email = request.user.email
 
+    curr_requests = Lesson.objects.filter(fulfilled="0")
     curr_records = Transfer.objects.all()
 
+    fulfilled_lessons = Lesson.objects.filter(fulfilled="1")
+
+    if request.method == "POST":
+        if request.POST.get("accept"):
+            lesson = Lesson.objects.get(pk=request.POST['accept'][0])
+            lesson.fulfilled = True
+            lesson.save(update_fields=["fulfilled"])
+            return redirect("admin_page")
+        elif request.POST.get("reject"):
+            lesson = Lesson.objects.get(pk=request.POST['reject'][0])
+            lesson.delete()
+            return redirect("admin_page")
+
     context = {
+        'curr_username': curr_username,
+        'curr_name': curr_name,
+        'curr_email': curr_email,
         'curr_requests': curr_requests,
-        'curr_records': curr_records
+        'curr_records': curr_records,
+        'fulfilled_lessons': fulfilled_lessons
     }
 
     return render(request, 'admin_page.html', context)

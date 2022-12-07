@@ -1,34 +1,17 @@
 {% extends 'base_content.html' %}
 {% block content %}
-    <div class="all_info">
+    <div class="admin_info">
         {% include 'partials/user_profile.html' %}
     </div>
 
     <div class="fulfil_requests_area">
         <h2>Fulfil Requests:</h2>
-        {% csrf_token %}
-        {% for i in curr_requests %}
-        <table>
-            <tr>
-                <th>Student</th>
-                <th>Duration</th>
-                <th>Teacher</th>
-                <th colspan="2">Action</th>
-            </tr>
-            <tr>
-                <td>{{ i.id }}</td>
-                <td>{{ i.lesson_duration }}</td>
-                <td>{{ i.teacher }}</td>
-                <th><button id="accept-button">Accept</button></th>
-                <th><button id="reject-button">Reject</button></th>
-            </tr>
-            {% endfor %}
-        </table>
+        {% include 'partials/fulfil_lesson.html' with lessons=curr_requests %}
     </div>
 
     <div class="invoicing_area">
         <h2>Generate or Update Invoice:</h2>
-        <!-- implement invoicing after fixes.-->
+        {% include 'partials/generate_invoice.html' with lessons=fulfilled_lessons %}
     </div>
 
     <div class="record_transfer_area">
@@ -41,7 +24,6 @@
                     <option value="{{ i.invoice_id }}">{{ i.invoice_id }}</option>
                 {% endfor %}
             </select>
-
             <button type="submit">Submit Record</button>
         </form>
     </div>
