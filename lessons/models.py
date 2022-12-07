@@ -70,6 +70,7 @@ class Lesson(models.Model):
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
 
+
 class Invoice(models.Model):
     """An invoice for a lesson."""
 
@@ -94,4 +95,3 @@ class Transfer(models.Model):
     invoice_number = models.CharField(default='0-0', max_length=50)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     date = models.DateTimeField(default=timezone.now)
-

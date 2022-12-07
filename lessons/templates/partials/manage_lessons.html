@@ -1,0 +1,36 @@
+{% load humanize %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Full name</th>
+      <th scope="col">Start date</th>
+      <th scope="col">Number of lessons</th>
+      <th scope="col">Lesson duration</th>
+      <th scope="col">Teacher</th>
+      <th scope="col">Fulfilled</th>
+      <th scope="col">Price</th>
+      <th scope="col">Payment status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for lesson in lessons %}
+    <tr>
+      <td>{{ lesson.student.first_name }} {{ lesson.student.last_name }}</td>
+      <td>{{ lesson.start_date }}</td>
+      <td>{{ lesson.number_of_lessons }}</td>
+      <td>{{ lesson.lesson_duration }}</td>
+      <td>{{ lesson.teacher }}</td>
+      <td>{{ lesson.fulfilled }}</td>
+      <td>{{ lesson.price }}</td>
+      <td>{{ lesson.get_paid_type_display }}</td>
+      <td>
+        <form action="{% url 'admin_page' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" name="generate" value="{{lesson.id}}" class="btn btn-primary">Generate</button>
+          </form>
+      </td>
+    </tr>
+  </tbody>
+    {% endfor %}
+</table>
