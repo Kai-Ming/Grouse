@@ -109,7 +109,7 @@ class LessonRequestForm(forms.ModelForm):
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')
 
-class LessonRequestForm(forms.ModelForm):
+class LessonEditForm(forms.ModelForm):
     """Form for the user to request lessons.
 
     The student must be by the lesson requestor.
@@ -124,7 +124,7 @@ class LessonRequestForm(forms.ModelForm):
         number_of_lesson = forms.IntegerField(label='Number of lessons')
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')
-        price = forms.FloatField(label='Price')\
+        price = forms.FloatField(label='Price')
 
 
 

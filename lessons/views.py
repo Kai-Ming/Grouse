@@ -157,7 +157,7 @@ def lesson_request(request):
 @admin_login_required
 def edit_lesson(request, lesson_id):
     lesson = Lesson.objects.get(pk=lesson_id)
-    form = LessonRequestForm(request.POST or None, request.FILES or None, instance=lesson)
+    form = LessonEditForm(request.POST or None, request.FILES or None, instance=lesson)
     if form.is_valid():
         form.save()
         return redirect('admin_page') 
