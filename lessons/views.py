@@ -87,6 +87,7 @@ def log_out(request):
 
 @login_required
 def user_page(request):
+    if(request.user.user_type == 5 or 4): return redirect('admin_page')
     curr_username = request.user.username
     curr_name = request.user.first_name + request.user.last_name
     curr_email = request.user.email
