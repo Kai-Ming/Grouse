@@ -130,6 +130,9 @@ def admin_page(request):
             lesson = Lesson.objects.get(pk=request.POST['reject'][0])
             lesson.delete()
             return redirect("admin_page")
+        elif request.POST.get("generate"):
+            # create an invoice object here
+            return redirect("admin_page")
 
     context = {
         'curr_username': curr_username,
