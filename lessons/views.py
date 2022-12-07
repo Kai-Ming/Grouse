@@ -26,6 +26,7 @@ def login_prohibited(view_function):
             return view_function(request)
     return modified_view_function """
 
+
 def student_sign_up(request):
     if request.method == "POST":
         form = StudentSignUpForm(request.POST)
@@ -35,6 +36,7 @@ def student_sign_up(request):
     else:
         form = StudentSignUpForm()
     return render(request, 'student_sign_up.html', {'form': form})
+
 
 @user_passes_test(admin_rights_check)
 def teacher_sign_up(request):
@@ -47,6 +49,7 @@ def teacher_sign_up(request):
         form = TeacherSignUpForm()
     return render(request, 'teacher_sign_up.html', {'form': form})
 
+
 def adult_sign_up(request):
     if request.method == "POST":
         form = AdultSignUpForm(request.POST)
@@ -56,6 +59,7 @@ def adult_sign_up(request):
     else:
         form = AdultSignUpForm()
     return render(request, 'adult_sign_up.html', {'form': form})
+
 
 @login_prohibited
 def log_in(request):
@@ -74,10 +78,12 @@ def log_in(request):
     next = request.GET.get('next') or ''
     return render(request, 'log_in.html', {'form': form, 'next': next})
 
+
 @login_required
 def log_out(request):
     logout(request)
     return redirect('log_in')
+
 
 @login_required
 def user_page(request):
@@ -98,24 +104,25 @@ def user_page(request):
         'curr_username': curr_username,
         'curr_name': curr_name,
         'curr_email': curr_email,
-        'enrolled_lesson_data': lessons,
-        #'invoice_list': invoice_list
+        'lessons': lessons,
+        # implement after fixes 'invoice_list': invoice_list
     }
     
-    return render(request, 'user_page.html',{'lessons': lessons})
+    return render(request, 'user_page.html', context)
+
 
 def admin_page(request):
-    curr_requests = models.Lesson.objects.filter(fulfilled="0")
+    curr_requests = Lesson.objects.filter(fulfilled="0")
 
-    curr_records = models.Transfer.objects.filter()
-
+    curr_records = Transfer.objects.all()
 
     context = {
         'curr_requests': curr_requests,
         'curr_records': curr_records
     }
 
-    return(render, 'admin_page.html')
+    return render(request, 'admin_page.html', context)
+
 
 @login_required
 def lesson_request(request):
