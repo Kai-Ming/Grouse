@@ -135,3 +135,6 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Login URL for redirecting users from login protected views
 LOGIN_URL = 'log_in'
 
+# URL where @login_prohibited redirects to
+REDIRECT_URL_WHEN_LOGGED_IN = 'user_page'
+
