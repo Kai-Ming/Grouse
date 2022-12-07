@@ -13,20 +13,9 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.urls import reverse
-from .checks import *
 from .forms import *
 from .models import *
-from .helpers import login_prohibited
-from django.shortcuts import get_object_or_404
-
-""" 
-def login_prohibited(view_function):
-    def modified_view_function(request):
-        if request.user.is_authenticated:
-            return redirect('user_page')
-        else:
-            return view_function(request)
-    return modified_view_function """
+from .helpers import *
 
 
 def student_sign_up(request):
@@ -39,8 +28,8 @@ def student_sign_up(request):
         form = StudentSignUpForm()
     return render(request, 'student_sign_up.html', {'form': form})
 
-
-@user_passes_test(admin_rights_check)
+@login_required
+@admin_login_required
 def teacher_sign_up(request):
     if request.method == "POST":
         form = TeacherSignUpForm(request.POST)
@@ -88,6 +77,7 @@ def log_out(request):
 
 
 @login_required
+@admin_login_prohibited
 def user_page(request):
     curr_username = request.user.username
     curr_name = request.user.first_name + request.user.last_name
@@ -109,7 +99,8 @@ def user_page(request):
     
     return render(request, 'user_page.html', context)
 
-
+@login_required
+@admin_login_required
 def admin_page(request):
     curr_username = request.user.username
     curr_name = request.user.first_name + request.user.last_name
@@ -144,6 +135,7 @@ def admin_page(request):
 
 
 @login_required
+@admin_login_prohibited
 def lesson_request(request):
     if request.method == "POST":
         form = LessonRequestForm(request.POST)
