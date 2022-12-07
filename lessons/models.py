@@ -62,7 +62,7 @@ class Lesson(models.Model):
     )
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField(auto_now=True)
+    start_date = models.DateField(auto_now=False, default=timezone.now)
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
     teacher = models.CharField(max_length=100, default='', blank=True)

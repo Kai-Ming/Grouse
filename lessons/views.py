@@ -152,3 +152,13 @@ def lesson_request(request):
     else:
         form = LessonRequestForm()
     return render(request, 'lesson_request.html', {'form': form})
+
+@login_required
+@admin_login_required
+def edit_lesson(request, lesson_id):
+    lesson = Lesson.objects.get(pk=lesson_id)
+    form = LessonRequestForm(request.POST or None, request.FILES or None, instance=lesson)
+    if form.is_valid():
+        form.save()
+        return redirect('admin_page') 
+    return render(request, 'edit_lesson.html', {'lesson': lesson, 'form': form})

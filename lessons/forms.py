@@ -109,6 +109,24 @@ class LessonRequestForm(forms.ModelForm):
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')
 
+class LessonRequestForm(forms.ModelForm):
+    """Form for the user to request lessons.
+
+    The student must be by the lesson requestor.
+    """
+
+    class Meta:
+        """Form options."""
+
+        model = Lesson
+        fields = ['start_date', 'number_of_lessons', 'lesson_duration', 'teacher', 'price']
+        start_date = forms.DateField(label='Start date')
+        number_of_lesson = forms.IntegerField(label='Number of lessons')
+        lesson_duration = forms.IntegerField(label='Lesson duration')
+        teacher = forms.CharField(label='Teacher')
+        price = forms.FloatField(label='Price')\
+
+
 
 class RecordTransferForm(forms.ModelForm):
     class Meta:
