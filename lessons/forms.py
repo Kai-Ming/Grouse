@@ -62,6 +62,7 @@ class AdultSignUpForm(GenericSignUpForm):
         )
         return user
 
+
 class TeacherSignUpForm(GenericSignUpForm):
     def save(self):
         super().save()
@@ -109,13 +110,6 @@ class LessonRequestForm(forms.ModelForm):
         teacher = forms.CharField(label='Teacher')
 
 
-class LessonFulfillForm(forms.ModelForm):
-    """Form for fulfilling lesson requests."""
-    class Meta:
-        model = Lesson
-        fields = ['id']
-        
-
 class RecordTransferForm(forms.ModelForm):
     class Meta:
         model = Transfer
@@ -138,5 +132,3 @@ class RecordTransferForm(forms.ModelForm):
         )
         
         return transfer
-
-            

@@ -27,8 +27,8 @@
       <td>
           <form action="{% url 'admin_page' %}" method="post">
               {% csrf_token %}
-              <input id="accept" type="submit" name="accept" value="Accept" class="btn btn-primary" />
-              <input id="edit" type="submit" name="reject" value="Reject" class="btn btn-primary" />
+              <button type="submit" name="accept" value="{{lesson.id}}" class="btn btn-primary">Accept</button>
+              <button type="submit" name="reject" value="{{lesson.id}}" class="btn btn-primary">Reject</button>
           </form>
       </td>
     </tr>

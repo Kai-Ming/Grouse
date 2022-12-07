@@ -1,5 +1,3 @@
-from wsgiref.util import request_uri
-from django.db import models
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -8,7 +6,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from django.http import HttpResponseForbidden, Http404
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView
@@ -19,6 +17,8 @@ from .checks import *
 from .forms import *
 from .models import *
 from .helpers import login_prohibited
+from django.shortcuts import get_object_or_404
+
 """ 
 def login_prohibited(view_function):
     def modified_view_function(request):
@@ -118,19 +118,18 @@ def admin_page(request):
     curr_requests = Lesson.objects.filter(fulfilled="0")
     curr_records = Transfer.objects.all()
 
+    fulfilled_lessons = Lesson.objects.filter(fulfilled="1")
+
     if request.method == "POST":
         if request.POST.get("accept"):
-            form = LessonFulfillForm(request.POST)
-            lesson = get_object_or_404(Lesson)
+            lesson = Lesson.objects.get(pk=request.POST['accept'][0])
             lesson.fulfilled = True
-            lesson.save(update_fields = ["fulfilled"])
+            lesson.save(update_fields=["fulfilled"])
             return redirect("admin_page")
-        else:
-            form = LessonFulfillForm(request.POST)
-            lesson = get_object_or_404(Lesson)
+        elif request.POST.get("reject"):
+            lesson = Lesson.objects.get(pk=request.POST['reject'][0])
             lesson.delete()
             return redirect("admin_page")
-
 
     context = {
         'curr_username': curr_username,
@@ -138,6 +137,7 @@ def admin_page(request):
         'curr_email': curr_email,
         'curr_requests': curr_requests,
         'curr_records': curr_records,
+        'fulfilled_lessons': fulfilled_lessons
     }
 
     return render(request, 'admin_page.html', context)
