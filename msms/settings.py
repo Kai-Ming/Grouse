@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-a&w%q*xhf_p%g9dka12!or2660frvwdwda8^zhh$dvlb0(26n-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['teamgrouse.pythonanywhere.com', 'localhost']
+ALLOWED_HOSTS = ['grouseseg.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -130,11 +130,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'lessons.User'
 
 
-ALLOWED_HOSTS = ['127.0.0.1', "localhost"]
-
 # Login URL for redirecting users from login protected views
 LOGIN_URL = 'log_in'
 
+
 # URL where @login_prohibited redirects to
 REDIRECT_URL_WHEN_LOGGED_IN = 'user_page'
-
