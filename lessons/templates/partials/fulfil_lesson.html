@@ -27,7 +27,7 @@
       <td>
           <form action="{% url 'admin_page' %}" method="post">
               {% csrf_token %}
-              <a class="btn btn-primary" href="{% url 'edit_lesson' lesson.id %}">Accept</a>
+              <a class="btn btn-primary" href="{% url 'edit_lesson' lesson.id %}">Submit</a>
               <button type="submit" name="reject" value="{{lesson.id}}" class="btn btn-primary">Reject</button>
           </form>
       </td>
