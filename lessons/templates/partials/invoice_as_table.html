@@ -15,7 +15,7 @@
       <td>{{ invoice.due_amount }}</td>
       <td>{{ invoice.due_date }}</td>
       <td>{{ invoice.updated_at }}</td>
-      <td></td>
+      <td>
         <form action="{% url 'admin_page' %}" method="post">
           {% csrf_token %}
           <button type="submit" name="delete" value="{{invoice.invoice_no}}" class="btn btn-primary">Delete</button>
