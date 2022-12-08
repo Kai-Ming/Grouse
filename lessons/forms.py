@@ -111,8 +111,7 @@ class LessonRequestForm(forms.ModelForm):
 
 
 class LessonEditForm(forms.ModelForm):
-    """Form for the admin to edit lessons.
-    """
+    """Form for the admin to edit lessons."""
 
     class Meta:
         """Form options."""

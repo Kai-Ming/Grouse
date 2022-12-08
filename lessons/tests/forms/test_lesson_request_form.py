@@ -9,28 +9,27 @@ class LessonRequestFormTestCase(TestCase):
 
     def setUp(self):
         self.user = User.objects.get(username='johndoe')
+        self.form_input = {'number_of_lessons': 1, 'lesson_duration': 30, 'teacher': 'Jane Doe'}
 
     def test_valid_number_of_lessons(self):
-        input = {'number_of_lessons': 1, 'lesson_duration': 30, 'teacher': 'A'}
-        form = LessonRequestForm(data=input)
+        form = LessonRequestForm(data=self.form_input)
         self.assertTrue(form.is_valid())
 
     def test_invalid_number_of_lessons(self):
-        input = {'number_of_lessons': 10, 'lesson_duration': 30, 'teacher': 'A'}
-        form = LessonRequestForm(data=input)
+        self.form_input['number_of_lessons'] = -1
+        form = LessonRequestForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
     def test_valid_lesson_duration(self):
-        input = {'number_of_lessons': 1, 'lesson_duration': 30, 'teacher': 'A'}
-        form = LessonRequestForm(data=input)
-        self.assertTrue(form.is_valid()) 
-
+        form = LessonRequestForm(data=self.form_input)
+        self.assertTrue(form.is_valid())
+    
     def test_invalid_lesson_duration(self):
-        input = {'number_of_lessons': 1, 'lesson_duration': 31, 'teacher': 'A'}
-        form = LessonRequestForm(data=input)
+        self.form_input['lesson_duration'] = -1
+        form = LessonRequestForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
     def test_teacher_can_be_empty(self):
-        input = {'number_of_lessons': 1, 'lesson_duration': 30, 'teacher': ''}
-        form = LessonRequestForm(data=input)
-        self.assertTrue(form.is_valid()) 
+        self.form_input['teacher'] = ''
+        form = LessonRequestForm(data=self.form_input)
+        self.assertTrue(form.is_valid())

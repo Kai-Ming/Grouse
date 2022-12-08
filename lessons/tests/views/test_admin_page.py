@@ -1,4 +1,4 @@
-"""Tests of the user page view."""
+"""Tests of the admin page view."""
 from django.test import TestCase
 from django.urls import reverse
 from lessons.forms import LessonRequestForm
@@ -7,7 +7,7 @@ from lessons.tests.helpers import reverse_with_next, create_lesson_request
 
 
 class UserPageViewTestCase(TestCase):
-    """Tests of the feed view."""
+    """Tests of the admin view."""
 
     fixtures = [
         'lessons/tests/fixtures/default_admin.json',
