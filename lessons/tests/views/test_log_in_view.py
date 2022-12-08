@@ -103,8 +103,8 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertEqual(len(messages_list), 0)
 
 
-
-    def test_post_log_in_redirects_when_logged_in(self):
+    # Tests if the user gets redirected to the user paged when logged in
+    def test_user_page_log_in_redirects_when_logged_in(self):
         self.client.login(username=self.user.username, password="Password123")
         form_input = { 'username': 'wronguser', 'password': 'WrongPassword123' }
         response = self.client.post(self.url, form_input, follow=True)

@@ -7,7 +7,7 @@ from lessons.tests.helpers import reverse_with_next, create_lesson_request
 
 
 class UserPageViewTestCase(TestCase):
-    """Tests of the feed view."""
+    """Tests of the user page view."""
 
     fixtures = [
         'lessons/tests/fixtures/default_student.json',
