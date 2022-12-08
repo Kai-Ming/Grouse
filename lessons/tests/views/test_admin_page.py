@@ -15,7 +15,6 @@ class UserPageViewTestCase(TestCase):
     ]
 
     def setUp(self):
-        self.user = User.objects.get(username='johndoe')
         self.admin = User.objects.get(username='jackdoe')
         self.superadmin = User.objects.get(username='janedoe')
         self.url = reverse('admin_page')
