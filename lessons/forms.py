@@ -133,6 +133,6 @@ class RecordTransferForm(forms.ModelForm):
 
         model = Transfer
         fields = ['amount', 'invoice_number', 'date']
-        amount = forms.FloatField(label='Amount paid')
+        amount = forms.DecimalField(label='Amount paid')
         invoice_number = forms.CharField(label='Associated invoice')
         date = forms.DateField(label='Payment date')

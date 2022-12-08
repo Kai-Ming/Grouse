@@ -21,5 +21,9 @@
     <h1>Invoices</h1>
     {% include 'partials/invoice_as_table.html' with invoices=invoices %}
   </div>
+  <div class="col-xs-12 col-lg-6 col-xl-8">
+    <h1>Balance</h1>
+    {{ curr_balance }}
+  </div>
 </div>
 {% endblock %}

@@ -20,6 +20,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.db.utils import IntegrityError
 from django.core.validators import ValidationError
+from decimal import Decimal
 
 
 # A function that renders a page for students to sign up
@@ -93,7 +94,7 @@ def user_page(request):
     curr_username = request.user.username
     curr_name = request.user.first_name + request.user.last_name
     curr_email = request.user.email
-
+    curr_balance = request.user.balance
     curr_id = request.user.id
     lesson_requests = Lesson.objects.filter(student=curr_id, fulfilled="0")
     lesson_bookings = Lesson.objects.filter(student=curr_id, fulfilled="1")
@@ -105,6 +106,7 @@ def user_page(request):
         'curr_username': curr_username,
         'curr_name': curr_name,
         'curr_email': curr_email,
+        'curr_balance': curr_balance,
         'lessons': lesson_requests,
         'bookings': lesson_bookings,
         'invoices': invoices
@@ -148,6 +150,9 @@ def admin_page(request):
             invoice = Invoice.objects.get(invoice_no=request.POST['delete'])
             invoice.delete()
 
+            student = User.objects.get(username=associated_lesson.student.username)
+            student.balance -= Decimal(invoice.due_amount)
+            student.save()
             return redirect('admin_page')
 
         elif request.POST.get("generate"):
@@ -190,7 +195,9 @@ def admin_page(request):
                     lesson.invoice = invoice_no
                     lesson.save(update_fields=['invoice'])
 
-                    # update student balance here
+                    student = User.objects.get(username=lesson.student.username)
+                    student.balance += Decimal(invoice.due_amount)
+                    student.save()
                     break
                 except IntegrityError:
                     continue
@@ -288,7 +295,9 @@ def record_transfer(request):
 
                 associated_lesson.save(update_fields=['paid_type'])
 
-                # update student balance here
+                student = User.objects.get(username=associated_lesson.student.username)
+                student.balance += Decimal(amount)
+                student.save()  
             except ValidationError as err:
                 print(f'Transfer couldn\'t be recorded: {err}')
 
