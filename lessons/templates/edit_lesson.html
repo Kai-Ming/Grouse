@@ -3,13 +3,21 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12 col-md-6 offset-md-3">
+      {% if lesson.fulfilled %}
       <h1>Edit lesson</h1>
+      {% else %}
+      <h1>Accept lesson</h1>
+      {% endif %}
         <h5>{{ lesson.student.first_name }} {{ lesson.student.last_name }}'s lesson</h5>
         <form action="{% url 'edit_lesson' lesson.id %}" method="post">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ next }}">
           {% include 'partials/bootstrap_form.html' with form=form %}
+          {% if lesson.fulfilled %}
           <input type="submit" value="Edit lesson" class="btn btn-primary">
+          {% else %}
+          <input type="submit" value="Accept lesson" class="btn btn-primary">
+          {% endif %}
         </form>
       <br>
       <a class="btn btn-primary" href="{% url 'admin_page' %}">Back to home</a>
