@@ -48,3 +48,5 @@ $ python3 manage.py test
 
 ## Sources
 The packages used by this application are specified in `requirements.txt`
+
+Clucker by Jeroen Keppens was used as a template for various parts of the source code.
