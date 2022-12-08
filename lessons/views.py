@@ -210,17 +210,37 @@ def edit_lesson(request, lesson_id):
     return render(request, 'edit_lesson.html', {'lesson': lesson, 'form': form})
 
 @login_required
-@admin_login_prohibited
 def edit_lesson_student(request, lesson_id):
     lesson = Lesson.objects.get(pk=lesson_id)
+    form = LessonRequestForm(request.POST or None, request.FILES or None, instance=lesson)
     if (lesson != None):
-        if (lesson.student == request.user):
-            form = LessonEditForm(request.POST or None, request.FILES or None, instance=lesson)
+        if (lesson.student == request.user and lesson.fulfilled == 0):
             if form.is_valid():
                 form.save()
                 return redirect('user_page') 
-            return render(request, 'edit_lesson.html', {'lesson': lesson, 'form': form})
+            return render(request, 'edit_lesson_student.html', {'lesson': lesson, 'form': form})
         else:
+            return redirect('user_page')
+    else:
+        return redirect('user_page')
+
+
+
+
+
+
+
+    """ lesson = Lesson.objects.get(pk=lesson_id)
+    if (lesson.student == request.user and lesson.fulfilled == 0):
+        form = LessonRequestForm(request.POST or None, request.FILES or None, instance=lesson)
+        if form.is_valid():
+            #form.save()
+            lesson.set_number_of_lessons(form.cleaned_data('number_of_lessons'))
+            lesson.lesson_duration = form.cleaned_data('lesson_duration')
+            lesson.teacher = form.cleaned_data('teacher')
+            lesson.save()
             return redirect('user_page') 
+        return render(request, 'edit_lesson_student.html', {'lesson': lesson, 'form': form})
     else:
         return redirect('user_page') 
+ """
