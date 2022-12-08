@@ -25,11 +25,11 @@
       <td>{{ lesson.price }}</td>
       <td>{{ lesson.get_paid_type_display }}</td>
       <td>
-        <a class="btn btn-primary" href="{% url 'edit_lesson' lesson.id %}">Edit lesson</a>
+        <a class="btn btn-primary" href="{% url 'edit_lesson' lesson.id %}">Edit Lesson</a>
         <form action="{% url 'admin_page' %}" method="post">
-              {% csrf_token %}
-              <button type="submit" name="generate" value="{{lesson.id}}" class="btn btn-primary">Generate</button>
-          </form>
+          {% csrf_token %}
+          <button type="submit" name="generate" value="{{lesson.id}}" class="btn btn-primary">Generate Invoice</button>
+        </form>
       </td>
     </tr>
   </tbody>
