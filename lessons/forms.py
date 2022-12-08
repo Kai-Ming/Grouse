@@ -109,6 +109,7 @@ class LessonRequestForm(forms.ModelForm):
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')
 
+
 class LessonEditForm(forms.ModelForm):
     """Form for the user to request lessons.
 
@@ -127,26 +128,14 @@ class LessonEditForm(forms.ModelForm):
         price = forms.FloatField(label='Price')
 
 
-
 class RecordTransferForm(forms.ModelForm):
+    """Form for administrators to record incoming transfers from students."""
+
     class Meta:
+        """Form options."""
+
         model = Transfer
         fields = ['amount', 'invoice_number', 'date']
-   
-    amount = forms.CharField(label='Amount Paid by Student')
-    invoice_number = forms.ChoiceField(label='Invoice Number')
-    date = datetime.date.today()
-
-    def clean(self):
-        super().clean()
-
-    def save(self):
-        super().save(commit=False)
-
-        transfer = Transfer.objects.create(
-            invoice_number = self.invoice_number,
-            amount = self.amount,
-            date = self.date
-        )
-        
-        return transfer
+        amount = forms.FloatField(label='Amount paid')
+        invoice_number = forms.CharField(label='Associated invoice')
+        date = forms.DateField(label='Payment date')

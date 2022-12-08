@@ -16,15 +16,7 @@
 
     <div class="record_transfer_area">
         <h2>Record Transfer:</h2>
-        <form action="" id="record-transfer">
-            Amount Paid: <input type="text" name="Amount Paid" id="amount_paid">
-            Invoice Numbers: <select name="" id="invoice_numbers">
-                {% csrf_token %}
-                {% for i in curr_records %}
-                    <option value="{{ i.invoice_id }}">{{ i.invoice_id }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit">Submit Record</button>
-        </form>
+        {% include 'partials/invoice_as_table.html' with invoices=invoices %}
+        <a class="btn btn-primary" href="{% url 'record_transfer' %}">Record Transfer</a>
     </div>
 {% endblock %}

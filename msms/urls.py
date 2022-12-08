@@ -29,4 +29,5 @@ urlpatterns = [
     path('admin_page/', views.admin_page, name='admin_page'),
     path('lesson_request/', views.lesson_request, name='lesson_request'),
     path('edit_lesson/<lesson_id>', views.edit_lesson, name='edit_lesson'),
+    path('record_transfer/', views.record_transfer, name='record_transfer'),
 ]

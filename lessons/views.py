@@ -19,6 +19,7 @@ from .helpers import *
 from django.utils import timezone
 from datetime import timedelta
 from django.db.utils import IntegrityError
+from django.core.validators import ValidationError
 
 
 def student_sign_up(request):
@@ -102,6 +103,7 @@ def user_page(request):
     
     return render(request, 'user_page.html', context)
 
+
 @login_required
 @admin_login_required
 def admin_page(request):
@@ -113,6 +115,8 @@ def admin_page(request):
     curr_records = Transfer.objects.all()
 
     fulfilled_lessons = Lesson.objects.filter(fulfilled="1")
+
+    invoices = Invoice.objects.all()
 
     if request.method == "POST":
         if request.POST.get("accept"):
@@ -175,7 +179,8 @@ def admin_page(request):
         'curr_email': curr_email,
         'curr_requests': curr_requests,
         'curr_records': curr_records,
-        'fulfilled_lessons': fulfilled_lessons
+        'fulfilled_lessons': fulfilled_lessons,
+        'invoices': invoices
     }
 
     return render(request, 'admin_page.html', context)
@@ -197,6 +202,7 @@ def lesson_request(request):
         form = LessonRequestForm()
     return render(request, 'lesson_request.html', {'form': form})
 
+
 @login_required
 @admin_login_required
 def edit_lesson(request, lesson_id):
@@ -206,3 +212,27 @@ def edit_lesson(request, lesson_id):
         form.save()
         return redirect('admin_page') 
     return render(request, 'edit_lesson.html', {'lesson': lesson, 'form': form})
+
+
+@login_required
+@admin_login_required
+def record_transfer(request):
+    if request.method == 'POST':
+        form = RecordTransferForm(request.POST)
+
+        if form.is_valid():
+            amount = form.cleaned_data.get('amount')
+            invoice_number = form.cleaned_data.get('invoice_number')
+            date = form.cleaned_data.get('date')
+
+            try:
+                Transfer.objects.create(invoice_number=invoice_number, amount=amount, date=date)
+                print(f'Recorded transfer for {invoice_number}')
+            except ValidationError as err:
+                print(f'Transfer couldn\'t be recorded: {err}')
+
+            return redirect('admin_page')
+    else:
+        form = RecordTransferForm()
+
+    return render(request, 'record_transfer.html', {'form': form})
