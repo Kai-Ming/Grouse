@@ -110,9 +110,7 @@ class LessonRequestForm(forms.ModelForm):
         teacher = forms.CharField(label='Teacher')
 
 class LessonEditForm(forms.ModelForm):
-    """Form for the user to request lessons.
-
-    The student must be by the lesson requestor.
+    """Form for the admin to edit lessons.
     """
 
     class Meta:
@@ -126,6 +124,18 @@ class LessonEditForm(forms.ModelForm):
         teacher = forms.CharField(label='Teacher')
         price = forms.FloatField(label='Price')
 
+class LessonEditStudentForm(forms.ModelForm):
+    """Form for the student to edit lessons.
+    """
+
+    class Meta:
+        """Form options."""
+
+        model = Lesson
+        fields = ['number_of_lessons', 'lesson_duration', 'teacher']
+        number_of_lesson = forms.IntegerField(label='Number of lessons')
+        lesson_duration = forms.IntegerField(label='Lesson duration')
+        teacher = forms.CharField(label='Teacher')
 
 
 class RecordTransferForm(forms.ModelForm):
