@@ -184,7 +184,7 @@ def admin_page(request):
                     n += 1
                     invoice_no = f'{student_no}-{n:04}'
 
-                    Invoice.objects.create(
+                    invoice = Invoice.objects.create(
                         invoice_no=invoice_no,
                         due_amount=due_amount,
                         due_date=due_date
