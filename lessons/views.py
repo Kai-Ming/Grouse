@@ -133,7 +133,7 @@ def admin_page(request):
             user_id = lesson.student_id
             student_no = f'{user_id:04}'
 
-            due_amount = lesson.price
+            due_amount = lesson.price 
 
             if lesson.lesson_duration == 45:
                 due_amount = lesson.price * 2

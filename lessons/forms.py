@@ -104,7 +104,7 @@ class LessonRequestForm(forms.ModelForm):
         """Form options."""
 
         model = Lesson
-        fields = ['number_of_lessons', 'lesson_duration', 'teacher']
+        fields = ['number_of_lessons', 'lesson_duration', 'teacher', "day_of_week", "week_interval"]
         number_of_lesson = forms.IntegerField(label='Number of lessons')
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')

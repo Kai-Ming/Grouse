@@ -60,12 +60,23 @@ class Lesson(models.Model):
         (3, "Partially paid"),
         (4, "Overpaid")
     )
+    DAYS_OF_WEEK = (
+        (1, "Monday"),
+        (2, "Tuesday"),
+        (3, "Wednesday"),
+        (4, "Thursday"),
+        (5, "Friday"),
+        (6, "Saturday"),
+        (7, "Sunday")
+    )
 
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now=False, default=timezone.now)
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
     teacher = models.CharField(max_length=100, default='', blank=True)
+    day_of_week = models.PositiveIntegerField(choices=DAYS_OF_WEEK, default=1)
+    week_interval = models.PositiveIntegerField(default=1)
     price = models.FloatField(validators=[MinValueValidator(0)], default=0)
     fulfilled = models.BooleanField(default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
