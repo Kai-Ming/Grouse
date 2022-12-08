@@ -140,6 +140,16 @@ def admin_page(request):
             lesson.delete()
             return redirect("admin_page")
 
+        elif request.POST.get('delete'):
+            associated_lesson = Lesson.objects.get(invoice=request.POST['delete'][0])
+            associated_lesson.invoice = 'No associated invoice.'
+            associated_lesson.save(update_fields=['invoice'])
+
+            invoice = Invoice.objects.get(invoice_no=request.POST['delete'][0])
+            invoice.delete()
+
+            return redirect('admin_page')
+
         elif request.POST.get("generate"):
             invoice_no = ''
 
@@ -169,6 +179,11 @@ def admin_page(request):
                     )
 
                     print(f'Generated invoice: {invoice_no}')
+
+                    lesson.invoice = invoice_no
+                    lesson.save(update_fields=['invoice'])
+
+                    # update student balance here
                     break
                 except IntegrityError:
                     continue
@@ -176,11 +191,6 @@ def admin_page(request):
             lesson.invoice = invoice_no
             lesson.save(update_fields=['invoice'])
 
-            return redirect('admin_page')
-
-        elif request.POST.get('record_transfer'):
-            # create a transfer here
-            # update the associated lesson paid type
             return redirect('admin_page')
 
     context = {
@@ -257,6 +267,21 @@ def record_transfer(request):
             try:
                 Transfer.objects.create(invoice_number=invoice_number, amount=amount, date=date)
                 print(f'Recorded transfer for {invoice_number}')
+
+                associated_lesson = Lesson.objects.get(invoice=invoice_number)
+                associated_invoice = Invoice.objects.get(invoice_no=invoice_number)
+                amount_due = associated_invoice.due_amount
+
+                if amount_due == amount:
+                    associated_lesson.paid_type = 2
+                if amount_due > amount:
+                    associated_lesson.paid_type = 3
+                else:
+                    associated_lesson.paid_type = 4
+                associated_lesson.save(update_fields=['invoice'])
+
+
+                # update student balance here
             except ValidationError as err:
                 print(f'Transfer couldn\'t be recorded: {err}')
 

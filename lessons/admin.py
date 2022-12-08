@@ -17,7 +17,7 @@ class LessonAdmin(admin.ModelAdmin):
    """Configuration of the admin interface for lessons."""
 
    list_display = [
-   'student', 'teacher', 'number_of_lessons', 'lesson_duration', 'price', 'fulfilled', 'paid_type',
+   'student', 'teacher', 'number_of_lessons', 'lesson_duration', 'price', 'fulfilled', 'paid_type', 'invoice'
    ]
 
 
