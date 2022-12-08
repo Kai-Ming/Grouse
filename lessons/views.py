@@ -141,11 +141,11 @@ def admin_page(request):
             return redirect("admin_page")
 
         elif request.POST.get('delete'):
-            associated_lesson = Lesson.objects.get(invoice=request.POST['delete'][0])
+            associated_lesson = Lesson.objects.get(invoice=request.POST['delete'])
             associated_lesson.invoice = 'No associated invoice.'
             associated_lesson.save(update_fields=['invoice'])
 
-            invoice = Invoice.objects.get(invoice_no=request.POST['delete'][0])
+            invoice = Invoice.objects.get(invoice_no=request.POST['delete'])
             invoice.delete()
 
             return redirect('admin_page')
@@ -154,6 +154,13 @@ def admin_page(request):
             invoice_no = ''
 
             lesson = Lesson.objects.get(pk=request.POST['generate'][0])
+
+            if lesson.invoice != 'No associated invoice.':
+                invoice = Invoice.objects.get(invoice_no=lesson.invoice)
+                invoice.delete()
+                lesson.invoice = 'No associated invoice.'
+                lesson.save(update_fields=['invoice'])
+
             user_id = lesson.student_id
             student_no = f'{user_id:04}'
 
@@ -278,8 +285,8 @@ def record_transfer(request):
                     associated_lesson.paid_type = 3
                 else:
                     associated_lesson.paid_type = 4
-                associated_lesson.save(update_fields=['invoice'])
 
+                associated_lesson.save(update_fields=['paid_type'])
 
                 # update student balance here
             except ValidationError as err:
