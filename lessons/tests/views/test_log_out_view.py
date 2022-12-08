@@ -9,13 +9,19 @@ class LogOutViewTestCase(TestCase, LogInTester):
 
     fixtures = ['lessons/tests/fixtures/default_student.json']
 
+
+    # Sets up an example User object to be used for tests and store the log_out url
     def setUp(self):
         self.url = reverse('log_out')
         self.user = User.objects.get(username='johndoe')
 
+
+    # Tests if the log_out name points towards the correct URL
     def test_log_out_url(self):
         self.assertEqual(self.url,'/log_out/')
 
+
+    # Tests if the log_in page renders correctly 
     def test_get_log_out(self):
         self.client.login(username='johndoe', password='Password123')
         self.assertTrue(self._is_logged_in())

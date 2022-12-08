@@ -10,14 +10,20 @@ class LessonRequestViewTestCase(TestCase):
 
     fixtures = ['lessons/tests/fixtures/default_student.json']
 
+
+    # Creates a user instance and example form imput to be used for tests and saves the url of the lesson_request page
     def setUp(self):
         self.url = reverse('lesson_request')
         self.form_input = {'number_of_lessons': 1, 'lesson_duration': 30, 'teacher': 'Jane Doe'}
         self.user = User.objects.get(username='johndoe')
 
+
+    # Tests if the lesson_request name has the correct url associated with it
     def test_lesson_request_url(self):
         self.assertEqual(self.url,'/lesson_request/')
 
+
+    # Tests if the correct page is rendered for lesson request
     def test_get_lesson_request(self):
         self.client.login(username=self.user.username, password='Password123')
         response = self.client.get(self.url)
@@ -26,6 +32,8 @@ class LessonRequestViewTestCase(TestCase):
         self.assertTrue(isinstance(form, LessonRequestForm))
         self.assertFalse(form.is_bound)
 
+
+    # Tests if the an invalid lesson request produces the desired results
     def test_unsuccessful_lesson_request(self):
         self.form_input['number_of_lessons'] = -1
         self.client.login(username=self.user.username, password='Password123')
@@ -39,6 +47,8 @@ class LessonRequestViewTestCase(TestCase):
         self.assertTrue(isinstance(form, LessonRequestForm))
         self.assertTrue(form.is_bound)
 
+
+    # Tests if the a valid lesson request produces the desired results
     def test_successful_lesson_request(self):
         self.client.login(username=self.user.username, password='Password123')
         before_count = Lesson.objects.count()
