@@ -10,13 +10,13 @@ def login_prohibited(view_function):
     return modified_view_function
 
 def admin_login_prohibited(view_function):
-    def modified_view_function(request):
+    def modified_view_function(request, **kwargs):
         if request.user.user_type == 5:
             return redirect("admin_page")
         elif request.user.user_type == 4:
             return redirect("admin_page")
         else:
-            return view_function(request)
+            return view_function(request, **kwargs)
     return modified_view_function
 
 def admin_login_required(view_function):

@@ -10,6 +10,9 @@
       <th scope="col">Fulfilled</th>
       <th scope="col">Price</th>
       <th scope="col">Payment status</th>
+      {% if lesson.fulfilled == 0 %}
+      <th scope="col">Edit</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -23,6 +26,9 @@
       <td>{{ lesson.fulfilled }}</td>
       <td>{{ lesson.price }}</td>
       <td>{{ lesson.get_paid_type_display }}</td>
+      {% if lesson.fulfilled == 0 %}
+      <td><a class="btn btn-primary" href="{% url 'edit_lesson_student' lesson.id %}">Edit lesson</a></td>
+      {% endif %}
     </tr>
   </tbody>
     {% endfor %}
