@@ -88,7 +88,8 @@ def user_page(request):
     curr_email = request.user.email
 
     curr_id = request.user.id
-    lessons = Lesson.objects.filter(student=curr_id)
+    lesson_requests = Lesson.objects.filter(student=curr_id, fulfilled="0")
+    lesson_bookings = Lesson.objects.filter(student=curr_id, fulfilled="1")
 
     # Still needs testingg.
     invoices = Invoice.objects.extra(where=["%s LIKE invoice_no||'%%'"], params=[curr_id])
@@ -97,7 +98,8 @@ def user_page(request):
         'curr_username': curr_username,
         'curr_name': curr_name,
         'curr_email': curr_email,
-        'lessons': lessons,
+        'lessons': lesson_requests,
+        'bookings': lesson_bookings,
         'invoices': invoices
     }
     
@@ -222,6 +224,22 @@ def edit_lesson(request, lesson_id):
         form.save()
         return redirect('admin_page') 
     return render(request, 'edit_lesson.html', {'lesson': lesson, 'form': form})
+
+
+@login_required
+def edit_lesson_student(request, lesson_id):
+    lesson = Lesson.objects.get(pk=lesson_id)
+    form = LessonRequestForm(request.POST or None, request.FILES or None, instance=lesson)
+    if (lesson != None):
+        if (lesson.student == request.user and lesson.fulfilled == 0):
+            if form.is_valid():
+                form.save()
+                return redirect('user_page') 
+            return render(request, 'edit_lesson_student.html', {'lesson': lesson, 'form': form})
+        else:
+            return redirect('user_page')
+    else:
+        return redirect('user_page')
 
 
 @login_required
