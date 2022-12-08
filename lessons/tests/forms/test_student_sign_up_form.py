@@ -8,6 +8,8 @@ from lessons.models import User
 class SignUpFormTestCase(TestCase):
     """Unit tests of the sign up form."""
 
+
+    #Set up an examplery input to use for the tests
     def setUp(self):
         self.form_input = {
             'first_name': 'Jane',
@@ -18,10 +20,14 @@ class SignUpFormTestCase(TestCase):
             'password_confirmation': 'Password123'
         }
 
+
+    # Test if the form accepts valid input
     def test_valid_sign_up_form(self):
         form = StudentSignUpForm(data=self.form_input)
         self.assertTrue(form.is_valid())
 
+
+    # Test the form having the required fields inside it
     def test_form_has_necessary_fields(self):
         form = StudentSignUpForm()
         self.assertIn('first_name', form.fields)
@@ -37,34 +43,46 @@ class SignUpFormTestCase(TestCase):
         password_confirmation_widget = form.fields['password_confirmation'].widget
         self.assertTrue(isinstance(password_confirmation_widget, forms.PasswordInput))
 
+
+    # Test the form using model validation
     def test_form_uses_model_validation(self):
         self.form_input['username'] = 'A'
         form = StudentSignUpForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
+
+    # Test the form not accepting a password field with no uppercase characters in it
     def test_password_must_contain_uppercase_character(self):
         self.form_input['new_password'] = 'password123'
         self.form_input['password_confirmation'] = 'password123'
         form = StudentSignUpForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
+
+    # Test the form not accepting a password field with no lowercase characters in it
     def test_password_must_contain_lowercase_character(self):
         self.form_input['new_password'] = 'PASSWORD123'
         self.form_input['password_confirmation'] = 'PASSWORD123'
         form = StudentSignUpForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
+
+    # Test the form not accepting a password field with no numbers in it
     def test_password_must_contain_number(self):
         self.form_input['new_password'] = 'PasswordABC'
         self.form_input['password_confirmation'] = 'PasswordABC'
         form = StudentSignUpForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
+
+    # Test the new_password and password_confirmation fields should be equal for a valid form
     def test_new_password_and_password_confirmation_are_identical(self):
         self.form_input['password_confirmation'] = 'WrongPassword123'
         form = StudentSignUpForm(data=self.form_input)
         self.assertFalse(form.is_valid())
+    
 
+    # Test if the form saves correctly
     def test_form_must_save_correctly(self):
         form = StudentSignUpForm(data=self.form_input)
         before_count = User.objects.count()

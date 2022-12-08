@@ -11,6 +11,8 @@ class SignUpViewTestCase(TestCase, LogInTester):
 
     fixtures = ['lessons/tests/fixtures/default_student.json']
 
+
+    # Sets up the form input to be used for the tests and stores the url of the sign_up page
     def setUp(self):
         self.url = reverse('student_sign_up')
         self.form_input = {
@@ -23,9 +25,13 @@ class SignUpViewTestCase(TestCase, LogInTester):
         }
         self.user = User.objects.get(username='johndoe')
 
+
+    # Tests if the sign_up name points towards the correct URL
     def test_sign_up_url(self):
         self.assertEqual(self.url,'/student_sign_up/')
 
+
+    # Tests if the sign_up page renders correctly with the correct form and html
     def test_get_sign_up(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -34,6 +40,8 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertTrue(isinstance(form, GenericSignUpForm))
         self.assertFalse(form.is_bound)
 
+
+    # Tests if an unsuccessful sign up produces the desired results
     def test_unsuccessful_sign_up(self):
         self.form_input['username'] = 'A'
         before_count = User.objects.count()
@@ -47,6 +55,8 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertTrue(form.is_bound)
         self.assertFalse(self._is_logged_in())
 
+
+    # Tests if an successful sign up produces the desired results
     def test_successful_sign_up(self):
         before_count = User.objects.count()
         self.client.post(self.url, self.form_input)

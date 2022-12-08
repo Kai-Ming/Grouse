@@ -22,6 +22,7 @@ from django.db.utils import IntegrityError
 from django.core.validators import ValidationError
 
 
+# A function that renders a page for students to sign up
 def student_sign_up(request):
     if request.method == "POST":
         form = StudentSignUpForm(request.POST)
@@ -32,8 +33,10 @@ def student_sign_up(request):
         form = StudentSignUpForm()
     return render(request, 'student_sign_up.html', {'form': form})
 
+
 @login_required
 @admin_login_required
+# A function that renders a page for teacher sign up
 def teacher_sign_up(request):
     if request.method == "POST":
         form = TeacherSignUpForm(request.POST)
@@ -45,6 +48,7 @@ def teacher_sign_up(request):
     return render(request, 'teacher_sign_up.html', {'form': form})
 
 
+# A function that renders a page for adults to sign up
 def adult_sign_up(request):
     if request.method == "POST":
         form = AdultSignUpForm(request.POST)
@@ -57,6 +61,7 @@ def adult_sign_up(request):
 
 
 @login_prohibited
+# A function that renders a page for a user to log in
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
@@ -75,6 +80,7 @@ def log_in(request):
 
 
 @login_required
+# A function that renders a page for a user to log out
 def log_out(request):
     logout(request)
     return redirect('log_in')
@@ -82,6 +88,7 @@ def log_out(request):
 
 @login_required
 @admin_login_prohibited
+# A function that renders the user page
 def user_page(request):
     curr_username = request.user.username
     curr_name = request.user.first_name + request.user.last_name
@@ -108,6 +115,7 @@ def user_page(request):
 
 @login_required
 @admin_login_required
+# A function that renders the administrative page
 def admin_page(request):
     curr_username = request.user.username
     curr_name = request.user.first_name + request.user.last_name
@@ -190,6 +198,7 @@ def admin_page(request):
 
 @login_required
 @admin_login_prohibited
+# A function for creating lesson requests
 def lesson_request(request):
     if request.method == "POST":
         form = LessonRequestForm(request.POST)
@@ -207,6 +216,7 @@ def lesson_request(request):
 
 @login_required
 @admin_login_required
+# A function that when invoked edits an already existing lesson (for admins)
 def edit_lesson(request, lesson_id):
     lesson = Lesson.objects.get(pk=lesson_id)
     form = LessonEditForm(request.POST or None, request.FILES or None, instance=lesson)
@@ -217,6 +227,7 @@ def edit_lesson(request, lesson_id):
 
 
 @login_required
+# A function that when invoked edits an already existing lesson (for students)
 def edit_lesson_student(request, lesson_id):
     lesson = Lesson.objects.get(pk=lesson_id)
     form = LessonRequestForm(request.POST or None, request.FILES or None, instance=lesson)
