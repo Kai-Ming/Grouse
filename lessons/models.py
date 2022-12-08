@@ -61,13 +61,18 @@ class Lesson(models.Model):
         (4, "Overpaid")
     )
 
+    BOOL_CHOICES = (
+        (True, 'Accept'), 
+        (False, 'Reject')
+        )
+
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now=False, default=timezone.now)
     number_of_lessons = models.PositiveIntegerField(choices=LESSON_NUMBER_CHOICES, default=1)
     lesson_duration = models.PositiveIntegerField(choices=LESSON_DURATION_CHOICES, default=30)
     teacher = models.CharField(max_length=100, default='', blank=True)
     price = models.FloatField(validators=[MinValueValidator(0)], default=0)
-    fulfilled = models.BooleanField(default=False)
+    fulfilled = models.BooleanField(choices=BOOL_CHOICES, default=False)
     paid_type = models.PositiveIntegerField(choices=PAID_TYPE_CHOICES, default=1)
     invoice = models.CharField(max_length=25, blank=False, default='No associated invoice.')
 

@@ -123,7 +123,7 @@ class LessonEditForm(forms.ModelForm):
         lesson_duration = forms.IntegerField(label='Lesson duration')
         teacher = forms.CharField(label='Teacher')
         price = forms.FloatField(label='Price')
-        fulfilled = forms.BooleanField()
+        fulfilled = forms.BooleanField(label = "Accepted")
 
 class RecordTransferForm(forms.ModelForm):
     """Form for administrators to record incoming transfers from students."""
